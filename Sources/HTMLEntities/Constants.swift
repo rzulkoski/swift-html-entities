@@ -15,9 +15,9 @@
  */
 
 // Linux toolchain requires Foundation to resolve `String` class's `hasSuffix()` function
-#if os(Linux)
+//#if os(Linux)
     import Foundation
-#endif
+//#endif
 
 // Replacement character U+FFFD
 let replacementCharacterAsUInt32: UInt32 = 0xFFFD
@@ -125,581 +125,2246 @@ let legacyNamedCharactersLengthRange: CountableClosedRange<Int> = { () -> Counta
 }()
 
 // Named character references that may be parsed without an ending ;
-let legacyNamedCharactersDecodeMap: [String: Character] = [
-    "Aacute":"\u{C1}","aacute":"\u{E1}","Acirc":"\u{C2}","acirc":"\u{E2}",
-    "acute":"\u{B4}","AElig":"\u{C6}","aelig":"\u{E6}","Agrave":"\u{C0}",
-    "agrave":"\u{E0}","AMP":"\u{26}","amp":"\u{26}","Aring":"\u{C5}",
-    "aring":"\u{E5}","Atilde":"\u{C3}","atilde":"\u{E3}","Auml":"\u{C4}",
-    "auml":"\u{E4}","brvbar":"\u{A6}","Ccedil":"\u{C7}","ccedil":"\u{E7}",
-    "cedil":"\u{B8}","cent":"\u{A2}","COPY":"\u{A9}","copy":"\u{A9}",
-    "curren":"\u{A4}","deg":"\u{B0}","divide":"\u{F7}","Eacute":"\u{C9}",
-    "eacute":"\u{E9}","Ecirc":"\u{CA}","ecirc":"\u{EA}","Egrave":"\u{C8}",
-    "egrave":"\u{E8}","ETH":"\u{D0}","eth":"\u{F0}","Euml":"\u{CB}",
-    "euml":"\u{EB}","frac12":"\u{BD}","frac14":"\u{BC}","frac34":"\u{BE}",
-    "GT":"\u{3E}","gt":"\u{3E}","Iacute":"\u{CD}","iacute":"\u{ED}",
-    "Icirc":"\u{CE}","icirc":"\u{EE}","iexcl":"\u{A1}","Igrave":"\u{CC}",
-    "igrave":"\u{EC}","iquest":"\u{BF}","Iuml":"\u{CF}","iuml":"\u{EF}",
-    "laquo":"\u{AB}","LT":"\u{3C}","lt":"\u{3C}","macr":"\u{AF}",
-    "micro":"\u{B5}","middot":"\u{B7}","nbsp":"\u{A0}","not":"\u{AC}",
-    "Ntilde":"\u{D1}","ntilde":"\u{F1}","Oacute":"\u{D3}","oacute":"\u{F3}",
-    "Ocirc":"\u{D4}","ocirc":"\u{F4}","Ograve":"\u{D2}","ograve":"\u{F2}",
-    "ordf":"\u{AA}","ordm":"\u{BA}","Oslash":"\u{D8}","oslash":"\u{F8}",
-    "Otilde":"\u{D5}","otilde":"\u{F5}","Ouml":"\u{D6}","ouml":"\u{F6}",
-    "para":"\u{B6}","plusmn":"\u{B1}","pound":"\u{A3}","QUOT":"\u{22}",
-    "quot":"\u{22}","raquo":"\u{BB}","REG":"\u{AE}","reg":"\u{AE}",
-    "sect":"\u{A7}","shy":"\u{AD}","sup1":"\u{B9}","sup2":"\u{B2}",
-    "sup3":"\u{B3}","szlig":"\u{DF}","THORN":"\u{DE}","thorn":"\u{FE}",
-    "times":"\u{D7}","Uacute":"\u{DA}","uacute":"\u{FA}","Ucirc":"\u{DB}",
-    "ucirc":"\u{FB}","Ugrave":"\u{D9}","ugrave":"\u{F9}","uml":"\u{A8}",
-    "Uuml":"\u{DC}","uuml":"\u{FC}","Yacute":"\u{DD}","yacute":"\u{FD}",
-    "yen":"\u{A5}","yuml":"\u{FF}"
-]
+let legacyNamedCharactersDecodeMap: [String: Character] = {
+    var map = [String: Character]()
+    map["Aacute"] = "\u{C1}"
+    map["aacute"] = "\u{E1}"
+    map["Acirc"] = "\u{C2}"
+    map["acirc"] = "\u{E2}"
+    map["acute"] = "\u{B4}"
+    map["AElig"] = "\u{C6}"
+    map["aelig"] = "\u{E6}"
+    map["Agrave"] = "\u{C0}"
+    map["agrave"] = "\u{E0}"
+    map["AMP"] = "\u{26}"
+    map["amp"] = "\u{26}"
+    map["Aring"] = "\u{C5}"
+    map["aring"] = "\u{E5}"
+    map["Atilde"] = "\u{C3}"
+    map["atilde"] = "\u{E3}"
+    map["Auml"] = "\u{C4}"
+    map["auml"] = "\u{E4}"
+    map["brvbar"] = "\u{A6}"
+    map["Ccedil"] = "\u{C7}"
+    map["ccedil"] = "\u{E7}"
+    map["cedil"] = "\u{B8}"
+    map["cent"] = "\u{A2}"
+    map["COPY"] = "\u{A9}"
+    map["copy"] = "\u{A9}"
+    map["curren"] = "\u{A4}"
+    map["deg"] = "\u{B0}"
+    map["divide"] = "\u{F7}"
+    map["Eacute"] = "\u{C9}"
+    map["eacute"] = "\u{E9}"
+    map["Ecirc"] = "\u{CA}"
+    map["ecirc"] = "\u{EA}"
+    map["Egrave"] = "\u{C8}"
+    map["egrave"] = "\u{E8}"
+    map["ETH"] = "\u{D0}"
+    map["eth"] = "\u{F0}"
+    map["Euml"] = "\u{CB}"
+    map["euml"] = "\u{EB}"
+    map["frac12"] = "\u{BD}"
+    map["frac14"] = "\u{BC}"
+    map["frac34"] = "\u{BE}"
+    map["GT"] = "\u{3E}"
+    map["gt"] = "\u{3E}"
+    map["Iacute"] = "\u{CD}"
+    map["iacute"] = "\u{ED}"
+    map["Icirc"] = "\u{CE}"
+    map["icirc"] = "\u{EE}"
+    map["iexcl"] = "\u{A1}"
+    map["Igrave"] = "\u{CC}"
+    map["igrave"] = "\u{EC}"
+    map["iquest"] = "\u{BF}"
+    map["Iuml"] = "\u{CF}"
+    map["iuml"] = "\u{EF}"
+    map["laquo"] = "\u{AB}"
+    map["LT"] = "\u{3C}"
+    map["lt"] = "\u{3C}"
+    map["macr"] = "\u{AF}"
+    map["micro"] = "\u{B5}"
+    map["middot"] = "\u{B7}"
+    map["nbsp"] = "\u{A0}"
+    map["not"] = "\u{AC}"
+    map["Ntilde"] = "\u{D1}"
+    map["ntilde"] = "\u{F1}"
+    map["Oacute"] = "\u{D3}"
+    map["oacute"] = "\u{F3}"
+    map["Ocirc"] = "\u{D4}"
+    map["ocirc"] = "\u{F4}"
+    map["Ograve"] = "\u{D2}"
+    map["ograve"] = "\u{F2}"
+    map["ordf"] = "\u{AA}"
+    map["ordm"] = "\u{BA}"
+    map["Oslash"] = "\u{D8}"
+    map["oslash"] = "\u{F8}"
+    map["Otilde"] = "\u{D5}"
+    map["otilde"] = "\u{F5}"
+    map["Ouml"] = "\u{D6}"
+    map["ouml"] = "\u{F6}"
+    map["para"] = "\u{B6}"
+    map["plusmn"] = "\u{B1}"
+    map["pound"] = "\u{A3}"
+    map["QUOT"] = "\u{22}"
+    map["quot"] = "\u{22}"
+    map["raquo"] = "\u{BB}"
+    map["REG"] = "\u{AE}"
+    map["reg"] = "\u{AE}"
+    map["sect"] = "\u{A7}"
+    map["shy"] = "\u{AD}"
+    map["sup1"] = "\u{B9}"
+    map["sup2"] = "\u{B2}"
+    map["sup3"] = "\u{B3}"
+    map["szlig"] = "\u{DF}"
+    map["THORN"] = "\u{DE}"
+    map["thorn"] = "\u{FE}"
+    map["times"] = "\u{D7}"
+    map["Uacute"] = "\u{DA}"
+    map["uacute"] = "\u{FA}"
+    map["Ucirc"] = "\u{DB}"
+    map["ucirc"] = "\u{FB}"
+    map["Ugrave"] = "\u{D9}"
+    map["ugrave"] = "\u{F9}"
+    map["uml"] = "\u{A8}"
+    map["Uuml"] = "\u{DC}"
+    map["uuml"] = "\u{FC}"
+    map["Yacute"] = "\u{DD}"
+    map["yacute"] = "\u{FD}"
+    map["yen"] = "\u{A5}"
+    map["yuml"] = "\u{FF}"
+    return map
+}()
 
 // Split map into two halves; otherwise, segmentation fault when compiling
-let namedCharactersDecodeMap = namedCharactersDecodeMap1.updating(namedCharactersDecodeMap2)
-
-let namedCharactersDecodeMap1: [String: Character] = [
-    "Aacute;":"\u{C1}","aacute;":"\u{E1}","Abreve;":"\u{102}","abreve;":"\u{103}",
-    "ac;":"\u{223E}","acd;":"\u{223F}","acE;":"\u{223E}\u{333}","Acirc;":"\u{C2}",
-    "acirc;":"\u{E2}","acute;":"\u{B4}","Acy;":"\u{410}","acy;":"\u{430}",
-    "AElig;":"\u{C6}","aelig;":"\u{E6}","af;":"\u{2061}","Afr;":"\u{1D504}",
-    "afr;":"\u{1D51E}","Agrave;":"\u{C0}","agrave;":"\u{E0}","alefsym;":"\u{2135}",
-    "aleph;":"\u{2135}","Alpha;":"\u{391}","alpha;":"\u{3B1}","Amacr;":"\u{100}",
-    "amacr;":"\u{101}","amalg;":"\u{2A3F}","AMP;":"\u{26}","amp;":"\u{26}",
-    "And;":"\u{2A53}","and;":"\u{2227}","andand;":"\u{2A55}","andd;":"\u{2A5C}",
-    "andslope;":"\u{2A58}","andv;":"\u{2A5A}","ang;":"\u{2220}","ange;":"\u{29A4}",
-    "angle;":"\u{2220}","angmsd;":"\u{2221}","angmsdaa;":"\u{29A8}","angmsdab;":"\u{29A9}",
-    "angmsdac;":"\u{29AA}","angmsdad;":"\u{29AB}","angmsdae;":"\u{29AC}","angmsdaf;":"\u{29AD}",
-    "angmsdag;":"\u{29AE}","angmsdah;":"\u{29AF}","angrt;":"\u{221F}","angrtvb;":"\u{22BE}",
-    "angrtvbd;":"\u{299D}","angsph;":"\u{2222}","angst;":"\u{C5}","angzarr;":"\u{237C}",
-    "Aogon;":"\u{104}","aogon;":"\u{105}","Aopf;":"\u{1D538}","aopf;":"\u{1D552}",
-    "ap;":"\u{2248}","apacir;":"\u{2A6F}","apE;":"\u{2A70}","ape;":"\u{224A}",
-    "apid;":"\u{224B}","apos;":"\u{27}","ApplyFunction;":"\u{2061}","approx;":"\u{2248}",
-    "approxeq;":"\u{224A}","Aring;":"\u{C5}","aring;":"\u{E5}","Ascr;":"\u{1D49C}",
-    "ascr;":"\u{1D4B6}","Assign;":"\u{2254}","ast;":"\u{2A}","asymp;":"\u{2248}",
-    "asympeq;":"\u{224D}","Atilde;":"\u{C3}","atilde;":"\u{E3}","Auml;":"\u{C4}",
-    "auml;":"\u{E4}","awconint;":"\u{2233}","awint;":"\u{2A11}","backcong;":"\u{224C}",
-    "backepsilon;":"\u{3F6}","backprime;":"\u{2035}","backsim;":"\u{223D}","backsimeq;":"\u{22CD}",
-    "Backslash;":"\u{2216}","Barv;":"\u{2AE7}","barvee;":"\u{22BD}","Barwed;":"\u{2306}",
-    "barwed;":"\u{2305}","barwedge;":"\u{2305}","bbrk;":"\u{23B5}","bbrktbrk;":"\u{23B6}",
-    "bcong;":"\u{224C}","Bcy;":"\u{411}","bcy;":"\u{431}","bdquo;":"\u{201E}",
-    "becaus;":"\u{2235}","Because;":"\u{2235}","because;":"\u{2235}","bemptyv;":"\u{29B0}",
-    "bepsi;":"\u{3F6}","bernou;":"\u{212C}","Bernoullis;":"\u{212C}","Beta;":"\u{392}",
-    "beta;":"\u{3B2}","beth;":"\u{2136}","between;":"\u{226C}","Bfr;":"\u{1D505}",
-    "bfr;":"\u{1D51F}","bigcap;":"\u{22C2}","bigcirc;":"\u{25EF}","bigcup;":"\u{22C3}",
-    "bigodot;":"\u{2A00}","bigoplus;":"\u{2A01}","bigotimes;":"\u{2A02}","bigsqcup;":"\u{2A06}",
-    "bigstar;":"\u{2605}","bigtriangledown;":"\u{25BD}","bigtriangleup;":"\u{25B3}","biguplus;":"\u{2A04}",
-    "bigvee;":"\u{22C1}","bigwedge;":"\u{22C0}","bkarow;":"\u{290D}","blacklozenge;":"\u{29EB}",
-    "blacksquare;":"\u{25AA}","blacktriangle;":"\u{25B4}","blacktriangledown;":"\u{25BE}","blacktriangleleft;":"\u{25C2}",
-    "blacktriangleright;":"\u{25B8}","blank;":"\u{2423}","blk12;":"\u{2592}","blk14;":"\u{2591}",
-    "blk34;":"\u{2593}","block;":"\u{2588}","bne;":"\u{3D}\u{20E5}","bnequiv;":"\u{2261}\u{20E5}",
-    "bNot;":"\u{2AED}","bnot;":"\u{2310}","Bopf;":"\u{1D539}","bopf;":"\u{1D553}",
-    "bot;":"\u{22A5}","bottom;":"\u{22A5}","bowtie;":"\u{22C8}","boxbox;":"\u{29C9}",
-    "boxDL;":"\u{2557}","boxDl;":"\u{2556}","boxdL;":"\u{2555}","boxdl;":"\u{2510}",
-    "boxDR;":"\u{2554}","boxDr;":"\u{2553}","boxdR;":"\u{2552}","boxdr;":"\u{250C}",
-    "boxH;":"\u{2550}","boxh;":"\u{2500}","boxHD;":"\u{2566}","boxHd;":"\u{2564}",
-    "boxhD;":"\u{2565}","boxhd;":"\u{252C}","boxHU;":"\u{2569}","boxHu;":"\u{2567}",
-    "boxhU;":"\u{2568}","boxhu;":"\u{2534}","boxminus;":"\u{229F}","boxplus;":"\u{229E}",
-    "boxtimes;":"\u{22A0}","boxUL;":"\u{255D}","boxUl;":"\u{255C}","boxuL;":"\u{255B}",
-    "boxul;":"\u{2518}","boxUR;":"\u{255A}","boxUr;":"\u{2559}","boxuR;":"\u{2558}",
-    "boxur;":"\u{2514}","boxV;":"\u{2551}","boxv;":"\u{2502}","boxVH;":"\u{256C}",
-    "boxVh;":"\u{256B}","boxvH;":"\u{256A}","boxvh;":"\u{253C}","boxVL;":"\u{2563}",
-    "boxVl;":"\u{2562}","boxvL;":"\u{2561}","boxvl;":"\u{2524}","boxVR;":"\u{2560}",
-    "boxVr;":"\u{255F}","boxvR;":"\u{255E}","boxvr;":"\u{251C}","bprime;":"\u{2035}",
-    "Breve;":"\u{2D8}","breve;":"\u{2D8}","brvbar;":"\u{A6}","Bscr;":"\u{212C}",
-    "bscr;":"\u{1D4B7}","bsemi;":"\u{204F}","bsim;":"\u{223D}","bsime;":"\u{22CD}",
-    "bsol;":"\u{5C}","bsolb;":"\u{29C5}","bsolhsub;":"\u{27C8}","bull;":"\u{2022}",
-    "bullet;":"\u{2022}","bump;":"\u{224E}","bumpE;":"\u{2AAE}","bumpe;":"\u{224F}",
-    "Bumpeq;":"\u{224E}","bumpeq;":"\u{224F}","Cacute;":"\u{106}","cacute;":"\u{107}",
-    "Cap;":"\u{22D2}","cap;":"\u{2229}","capand;":"\u{2A44}","capbrcup;":"\u{2A49}",
-    "capcap;":"\u{2A4B}","capcup;":"\u{2A47}","capdot;":"\u{2A40}","CapitalDifferentialD;":"\u{2145}",
-    "caps;":"\u{2229}\u{FE00}","caret;":"\u{2041}","caron;":"\u{2C7}","Cayleys;":"\u{212D}",
-    "ccaps;":"\u{2A4D}","Ccaron;":"\u{10C}","ccaron;":"\u{10D}","Ccedil;":"\u{C7}",
-    "ccedil;":"\u{E7}","Ccirc;":"\u{108}","ccirc;":"\u{109}","Cconint;":"\u{2230}",
-    "ccups;":"\u{2A4C}","ccupssm;":"\u{2A50}","Cdot;":"\u{10A}","cdot;":"\u{10B}",
-    "cedil;":"\u{B8}","Cedilla;":"\u{B8}","cemptyv;":"\u{29B2}","cent;":"\u{A2}",
-    "CenterDot;":"\u{B7}","centerdot;":"\u{B7}","Cfr;":"\u{212D}","cfr;":"\u{1D520}",
-    "CHcy;":"\u{427}","chcy;":"\u{447}","check;":"\u{2713}","checkmark;":"\u{2713}",
-    "Chi;":"\u{3A7}","chi;":"\u{3C7}","cir;":"\u{25CB}","circ;":"\u{2C6}",
-    "circeq;":"\u{2257}","circlearrowleft;":"\u{21BA}","circlearrowright;":"\u{21BB}","circledast;":"\u{229B}",
-    "circledcirc;":"\u{229A}","circleddash;":"\u{229D}","CircleDot;":"\u{2299}","circledR;":"\u{AE}",
-    "circledS;":"\u{24C8}","CircleMinus;":"\u{2296}","CirclePlus;":"\u{2295}","CircleTimes;":"\u{2297}",
-    "cirE;":"\u{29C3}","cire;":"\u{2257}","cirfnint;":"\u{2A10}","cirmid;":"\u{2AEF}",
-    "cirscir;":"\u{29C2}","ClockwiseContourIntegral;":"\u{2232}","CloseCurlyDoubleQuote;":"\u{201D}","CloseCurlyQuote;":"\u{2019}",
-    "clubs;":"\u{2663}","clubsuit;":"\u{2663}","Colon;":"\u{2237}","colon;":"\u{3A}",
-    "Colone;":"\u{2A74}","colone;":"\u{2254}","coloneq;":"\u{2254}","comma;":"\u{2C}",
-    "commat;":"\u{40}","comp;":"\u{2201}","compfn;":"\u{2218}","complement;":"\u{2201}",
-    "complexes;":"\u{2102}","cong;":"\u{2245}","congdot;":"\u{2A6D}","Congruent;":"\u{2261}",
-    "Conint;":"\u{222F}","conint;":"\u{222E}","ContourIntegral;":"\u{222E}","Copf;":"\u{2102}",
-    "copf;":"\u{1D554}","coprod;":"\u{2210}","Coproduct;":"\u{2210}","COPY;":"\u{A9}",
-    "copy;":"\u{A9}","copysr;":"\u{2117}","CounterClockwiseContourIntegral;":"\u{2233}","crarr;":"\u{21B5}",
-    "Cross;":"\u{2A2F}","cross;":"\u{2717}","Cscr;":"\u{1D49E}","cscr;":"\u{1D4B8}",
-    "csub;":"\u{2ACF}","csube;":"\u{2AD1}","csup;":"\u{2AD0}","csupe;":"\u{2AD2}",
-    "ctdot;":"\u{22EF}","cudarrl;":"\u{2938}","cudarrr;":"\u{2935}","cuepr;":"\u{22DE}",
-    "cuesc;":"\u{22DF}","cularr;":"\u{21B6}","cularrp;":"\u{293D}","Cup;":"\u{22D3}",
-    "cup;":"\u{222A}","cupbrcap;":"\u{2A48}","CupCap;":"\u{224D}","cupcap;":"\u{2A46}",
-    "cupcup;":"\u{2A4A}","cupdot;":"\u{228D}","cupor;":"\u{2A45}","cups;":"\u{222A}\u{FE00}",
-    "curarr;":"\u{21B7}","curarrm;":"\u{293C}","curlyeqprec;":"\u{22DE}","curlyeqsucc;":"\u{22DF}",
-    "curlyvee;":"\u{22CE}","curlywedge;":"\u{22CF}","curren;":"\u{A4}","curvearrowleft;":"\u{21B6}",
-    "curvearrowright;":"\u{21B7}","cuvee;":"\u{22CE}","cuwed;":"\u{22CF}","cwconint;":"\u{2232}",
-    "cwint;":"\u{2231}","cylcty;":"\u{232D}","Dagger;":"\u{2021}","dagger;":"\u{2020}",
-    "daleth;":"\u{2138}","Darr;":"\u{21A1}","dArr;":"\u{21D3}","darr;":"\u{2193}",
-    "dash;":"\u{2010}","Dashv;":"\u{2AE4}","dashv;":"\u{22A3}","dbkarow;":"\u{290F}",
-    "dblac;":"\u{2DD}","Dcaron;":"\u{10E}","dcaron;":"\u{10F}","Dcy;":"\u{414}",
-    "dcy;":"\u{434}","DD;":"\u{2145}","dd;":"\u{2146}","ddagger;":"\u{2021}",
-    "ddarr;":"\u{21CA}","DDotrahd;":"\u{2911}","ddotseq;":"\u{2A77}","deg;":"\u{B0}",
-    "Del;":"\u{2207}","Delta;":"\u{394}","delta;":"\u{3B4}","demptyv;":"\u{29B1}",
-    "dfisht;":"\u{297F}","Dfr;":"\u{1D507}","dfr;":"\u{1D521}","dHar;":"\u{2965}",
-    "dharl;":"\u{21C3}","dharr;":"\u{21C2}","DiacriticalAcute;":"\u{B4}","DiacriticalDot;":"\u{2D9}",
-    "DiacriticalDoubleAcute;":"\u{2DD}","DiacriticalGrave;":"\u{60}","DiacriticalTilde;":"\u{2DC}","diam;":"\u{22C4}",
-    "Diamond;":"\u{22C4}","diamond;":"\u{22C4}","diamondsuit;":"\u{2666}","diams;":"\u{2666}",
-    "die;":"\u{A8}","DifferentialD;":"\u{2146}","digamma;":"\u{3DD}","disin;":"\u{22F2}",
-    "div;":"\u{F7}","divide;":"\u{F7}","divideontimes;":"\u{22C7}","divonx;":"\u{22C7}",
-    "DJcy;":"\u{402}","djcy;":"\u{452}","dlcorn;":"\u{231E}","dlcrop;":"\u{230D}",
-    "dollar;":"\u{24}","Dopf;":"\u{1D53B}","dopf;":"\u{1D555}","Dot;":"\u{A8}",
-    "dot;":"\u{2D9}","DotDot;":"\u{20DC}","doteq;":"\u{2250}","doteqdot;":"\u{2251}",
-    "DotEqual;":"\u{2250}","dotminus;":"\u{2238}","dotplus;":"\u{2214}","dotsquare;":"\u{22A1}",
-    "doublebarwedge;":"\u{2306}","DoubleContourIntegral;":"\u{222F}","DoubleDot;":"\u{A8}","DoubleDownArrow;":"\u{21D3}",
-    "DoubleLeftArrow;":"\u{21D0}","DoubleLeftRightArrow;":"\u{21D4}","DoubleLeftTee;":"\u{2AE4}","DoubleLongLeftArrow;":"\u{27F8}",
-    "DoubleLongLeftRightArrow;":"\u{27FA}","DoubleLongRightArrow;":"\u{27F9}","DoubleRightArrow;":"\u{21D2}","DoubleRightTee;":"\u{22A8}",
-    "DoubleUpArrow;":"\u{21D1}","DoubleUpDownArrow;":"\u{21D5}","DoubleVerticalBar;":"\u{2225}","DownArrow;":"\u{2193}",
-    "Downarrow;":"\u{21D3}","downarrow;":"\u{2193}","DownArrowBar;":"\u{2913}","DownArrowUpArrow;":"\u{21F5}",
-    "DownBreve;":"\u{311}","downdownarrows;":"\u{21CA}","downharpoonleft;":"\u{21C3}","downharpoonright;":"\u{21C2}",
-    "DownLeftRightVector;":"\u{2950}","DownLeftTeeVector;":"\u{295E}","DownLeftVector;":"\u{21BD}","DownLeftVectorBar;":"\u{2956}",
-    "DownRightTeeVector;":"\u{295F}","DownRightVector;":"\u{21C1}","DownRightVectorBar;":"\u{2957}","DownTee;":"\u{22A4}",
-    "DownTeeArrow;":"\u{21A7}","drbkarow;":"\u{2910}","drcorn;":"\u{231F}","drcrop;":"\u{230C}",
-    "Dscr;":"\u{1D49F}","dscr;":"\u{1D4B9}","DScy;":"\u{405}","dscy;":"\u{455}",
-    "dsol;":"\u{29F6}","Dstrok;":"\u{110}","dstrok;":"\u{111}","dtdot;":"\u{22F1}",
-    "dtri;":"\u{25BF}","dtrif;":"\u{25BE}","duarr;":"\u{21F5}","duhar;":"\u{296F}",
-    "dwangle;":"\u{29A6}","DZcy;":"\u{40F}","dzcy;":"\u{45F}","dzigrarr;":"\u{27FF}",
-    "Eacute;":"\u{C9}","eacute;":"\u{E9}","easter;":"\u{2A6E}","Ecaron;":"\u{11A}",
-    "ecaron;":"\u{11B}","ecir;":"\u{2256}","Ecirc;":"\u{CA}","ecirc;":"\u{EA}",
-    "ecolon;":"\u{2255}","Ecy;":"\u{42D}","ecy;":"\u{44D}","eDDot;":"\u{2A77}",
-    "Edot;":"\u{116}","eDot;":"\u{2251}","edot;":"\u{117}","ee;":"\u{2147}",
-    "efDot;":"\u{2252}","Efr;":"\u{1D508}","efr;":"\u{1D522}","eg;":"\u{2A9A}",
-    "Egrave;":"\u{C8}","egrave;":"\u{E8}","egs;":"\u{2A96}","egsdot;":"\u{2A98}",
-    "el;":"\u{2A99}","Element;":"\u{2208}","elinters;":"\u{23E7}","ell;":"\u{2113}",
-    "els;":"\u{2A95}","elsdot;":"\u{2A97}","Emacr;":"\u{112}","emacr;":"\u{113}",
-    "empty;":"\u{2205}","emptyset;":"\u{2205}","EmptySmallSquare;":"\u{25FB}","emptyv;":"\u{2205}",
-    "EmptyVerySmallSquare;":"\u{25AB}","emsp;":"\u{2003}","emsp13;":"\u{2004}","emsp14;":"\u{2005}",
-    "ENG;":"\u{14A}","eng;":"\u{14B}","ensp;":"\u{2002}","Eogon;":"\u{118}",
-    "eogon;":"\u{119}","Eopf;":"\u{1D53C}","eopf;":"\u{1D556}","epar;":"\u{22D5}",
-    "eparsl;":"\u{29E3}","eplus;":"\u{2A71}","epsi;":"\u{3B5}","Epsilon;":"\u{395}",
-    "epsilon;":"\u{3B5}","epsiv;":"\u{3F5}","eqcirc;":"\u{2256}","eqcolon;":"\u{2255}",
-    "eqsim;":"\u{2242}","eqslantgtr;":"\u{2A96}","eqslantless;":"\u{2A95}","Equal;":"\u{2A75}",
-    "equals;":"\u{3D}","EqualTilde;":"\u{2242}","equest;":"\u{225F}","Equilibrium;":"\u{21CC}",
-    "equiv;":"\u{2261}","equivDD;":"\u{2A78}","eqvparsl;":"\u{29E5}","erarr;":"\u{2971}",
-    "erDot;":"\u{2253}","Escr;":"\u{2130}","escr;":"\u{212F}","esdot;":"\u{2250}",
-    "Esim;":"\u{2A73}","esim;":"\u{2242}","Eta;":"\u{397}","eta;":"\u{3B7}",
-    "ETH;":"\u{D0}","eth;":"\u{F0}","Euml;":"\u{CB}","euml;":"\u{EB}",
-    "euro;":"\u{20AC}","excl;":"\u{21}","exist;":"\u{2203}","Exists;":"\u{2203}",
-    "expectation;":"\u{2130}","ExponentialE;":"\u{2147}","exponentiale;":"\u{2147}","fallingdotseq;":"\u{2252}",
-    "Fcy;":"\u{424}","fcy;":"\u{444}","female;":"\u{2640}","ffilig;":"\u{FB03}",
-    "fflig;":"\u{FB00}","ffllig;":"\u{FB04}","Ffr;":"\u{1D509}","ffr;":"\u{1D523}",
-    "filig;":"\u{FB01}","FilledSmallSquare;":"\u{25FC}","FilledVerySmallSquare;":"\u{25AA}",
-
+let namedCharactersDecodeMap: [String: Character] = {
+    var map = [String: Character]()
+    map["Aacute;"] = "\u{C1}"
+    map["aacute;"] = "\u{E1}"
+    map["Abreve;"] = "\u{102}"
+    map["abreve;"] = "\u{103}"
+    map["ac;"] = "\u{223E}"
+    map["acd;"] = "\u{223F}"
+    map["acE;"] = "\u{223E}\u{333}"
+    map["Acirc;"] = "\u{C2}"
+    map["acirc;"] = "\u{E2}"
+    map["acute;"] = "\u{B4}"
+    map["Acy;"] = "\u{410}"
+    map["acy;"] = "\u{430}"
+    map["AElig;"] = "\u{C6}"
+    map["aelig;"] = "\u{E6}"
+    map["af;"] = "\u{2061}"
+    map["Afr;"] = "\u{1D504}"
+    map["afr;"] = "\u{1D51E}"
+    map["Agrave;"] = "\u{C0}"
+    map["agrave;"] = "\u{E0}"
+    map["alefsym;"] = "\u{2135}"
+    map["aleph;"] = "\u{2135}"
+    map["Alpha;"] = "\u{391}"
+    map["alpha;"] = "\u{3B1}"
+    map["Amacr;"] = "\u{100}"
+    map["amacr;"] = "\u{101}"
+    map["amalg;"] = "\u{2A3F}"
+    map["AMP;"] = "\u{26}"
+    map["amp;"] = "\u{26}"
+    map["And;"] = "\u{2A53}"
+    map["and;"] = "\u{2227}"
+    map["andand;"] = "\u{2A55}"
+    map["andd;"] = "\u{2A5C}"
+    map["andslope;"] = "\u{2A58}"
+    map["andv;"] = "\u{2A5A}"
+    map["ang;"] = "\u{2220}"
+    map["ange;"] = "\u{29A4}"
+    map["angle;"] = "\u{2220}"
+    map["angmsd;"] = "\u{2221}"
+    map["angmsdaa;"] = "\u{29A8}"
+    map["angmsdab;"] = "\u{29A9}"
+    map["angmsdac;"] = "\u{29AA}"
+    map["angmsdad;"] = "\u{29AB}"
+    map["angmsdae;"] = "\u{29AC}"
+    map["angmsdaf;"] = "\u{29AD}"
+    map["angmsdag;"] = "\u{29AE}"
+    map["angmsdah;"] = "\u{29AF}"
+    map["angrt;"] = "\u{221F}"
+    map["angrtvb;"] = "\u{22BE}"
+    map["angrtvbd;"] = "\u{299D}"
+    map["angsph;"] = "\u{2222}"
+    map["angst;"] = "\u{C5}"
+    map["angzarr;"] = "\u{237C}"
+    map["Aogon;"] = "\u{104}"
+    map["aogon;"] = "\u{105}"
+    map["Aopf;"] = "\u{1D538}"
+    map["aopf;"] = "\u{1D552}"
+    map["ap;"] = "\u{2248}"
+    map["apacir;"] = "\u{2A6F}"
+    map["apE;"] = "\u{2A70}"
+    map["ape;"] = "\u{224A}"
+    map["apid;"] = "\u{224B}"
+    map["apos;"] = "\u{27}"
+    map["ApplyFunction;"] = "\u{2061}"
+    map["approx;"] = "\u{2248}"
+    map["approxeq;"] = "\u{224A}"
+    map["Aring;"] = "\u{C5}"
+    map["aring;"] = "\u{E5}"
+    map["Ascr;"] = "\u{1D49C}"
+    map["ascr;"] = "\u{1D4B6}"
+    map["Assign;"] = "\u{2254}"
+    map["ast;"] = "\u{2A}"
+    map["asymp;"] = "\u{2248}"
+    map["asympeq;"] = "\u{224D}"
+    map["Atilde;"] = "\u{C3}"
+    map["atilde;"] = "\u{E3}"
+    map["Auml;"] = "\u{C4}"
+    map["auml;"] = "\u{E4}"
+    map["awconint;"] = "\u{2233}"
+    map["awint;"] = "\u{2A11}"
+    map["backcong;"] = "\u{224C}"
+    map["backepsilon;"] = "\u{3F6}"
+    map["backprime;"] = "\u{2035}"
+    map["backsim;"] = "\u{223D}"
+    map["backsimeq;"] = "\u{22CD}"
+    map["Backslash;"] = "\u{2216}"
+    map["Barv;"] = "\u{2AE7}"
+    map["barvee;"] = "\u{22BD}"
+    map["Barwed;"] = "\u{2306}"
+    map["barwed;"] = "\u{2305}"
+    map["barwedge;"] = "\u{2305}"
+    map["bbrk;"] = "\u{23B5}"
+    map["bbrktbrk;"] = "\u{23B6}"
+    map["bcong;"] = "\u{224C}"
+    map["Bcy;"] = "\u{411}"
+    map["bcy;"] = "\u{431}"
+    map["bdquo;"] = "\u{201E}"
+    map["becaus;"] = "\u{2235}"
+    map["Because;"] = "\u{2235}"
+    map["because;"] = "\u{2235}"
+    map["bemptyv;"] = "\u{29B0}"
+    map["bepsi;"] = "\u{3F6}"
+    map["bernou;"] = "\u{212C}"
+    map["Bernoullis;"] = "\u{212C}"
+    map["Beta;"] = "\u{392}"
+    map["beta;"] = "\u{3B2}"
+    map["beth;"] = "\u{2136}"
+    map["between;"] = "\u{226C}"
+    map["Bfr;"] = "\u{1D505}"
+    map["bfr;"] = "\u{1D51F}"
+    map["bigcap;"] = "\u{22C2}"
+    map["bigcirc;"] = "\u{25EF}"
+    map["bigcup;"] = "\u{22C3}"
+    map["bigodot;"] = "\u{2A00}"
+    map["bigoplus;"] = "\u{2A01}"
+    map["bigotimes;"] = "\u{2A02}"
+    map["bigsqcup;"] = "\u{2A06}"
+    map["bigstar;"] = "\u{2605}"
+    map["bigtriangledown;"] = "\u{25BD}"
+    map["bigtriangleup;"] = "\u{25B3}"
+    map["biguplus;"] = "\u{2A04}"
+    map["bigvee;"] = "\u{22C1}"
+    map["bigwedge;"] = "\u{22C0}"
+    map["bkarow;"] = "\u{290D}"
+    map["blacklozenge;"] = "\u{29EB}"
+    map["blacksquare;"] = "\u{25AA}"
+    map["blacktriangle;"] = "\u{25B4}"
+    map["blacktriangledown;"] = "\u{25BE}"
+    map["blacktriangleleft;"] = "\u{25C2}"
+    map["blacktriangleright;"] = "\u{25B8}"
+    map["blank;"] = "\u{2423}"
+    map["blk12;"] = "\u{2592}"
+    map["blk14;"] = "\u{2591}"
+    map["blk34;"] = "\u{2593}"
+    map["block;"] = "\u{2588}"
+    map["bne;"] = "\u{3D}\u{20E5}"
+    map["bnequiv;"] = "\u{2261}\u{20E5}"
+    map["bNot;"] = "\u{2AED}"
+    map["bnot;"] = "\u{2310}"
+    map["Bopf;"] = "\u{1D539}"
+    map["bopf;"] = "\u{1D553}"
+    map["bot;"] = "\u{22A5}"
+    map["bottom;"] = "\u{22A5}"
+    map["bowtie;"] = "\u{22C8}"
+    map["boxbox;"] = "\u{29C9}"
+    map["boxDL;"] = "\u{2557}"
+    map["boxDl;"] = "\u{2556}"
+    map["boxdL;"] = "\u{2555}"
+    map["boxdl;"] = "\u{2510}"
+    map["boxDR;"] = "\u{2554}"
+    map["boxDr;"] = "\u{2553}"
+    map["boxdR;"] = "\u{2552}"
+    map["boxdr;"] = "\u{250C}"
+    map["boxH;"] = "\u{2550}"
+    map["boxh;"] = "\u{2500}"
+    map["boxHD;"] = "\u{2566}"
+    map["boxHd;"] = "\u{2564}"
+    map["boxhD;"] = "\u{2565}"
+    map["boxhd;"] = "\u{252C}"
+    map["boxHU;"] = "\u{2569}"
+    map["boxHu;"] = "\u{2567}"
+    map["boxhU;"] = "\u{2568}"
+    map["boxhu;"] = "\u{2534}"
+    map["boxminus;"] = "\u{229F}"
+    map["boxplus;"] = "\u{229E}"
+    map["boxtimes;"] = "\u{22A0}"
+    map["boxUL;"] = "\u{255D}"
+    map["boxUl;"] = "\u{255C}"
+    map["boxuL;"] = "\u{255B}"
+    map["boxul;"] = "\u{2518}"
+    map["boxUR;"] = "\u{255A}"
+    map["boxUr;"] = "\u{2559}"
+    map["boxuR;"] = "\u{2558}"
+    map["boxur;"] = "\u{2514}"
+    map["boxV;"] = "\u{2551}"
+    map["boxv;"] = "\u{2502}"
+    map["boxVH;"] = "\u{256C}"
+    map["boxVh;"] = "\u{256B}"
+    map["boxvH;"] = "\u{256A}"
+    map["boxvh;"] = "\u{253C}"
+    map["boxVL;"] = "\u{2563}"
+    map["boxVl;"] = "\u{2562}"
+    map["boxvL;"] = "\u{2561}"
+    map["boxvl;"] = "\u{2524}"
+    map["boxVR;"] = "\u{2560}"
+    map["boxVr;"] = "\u{255F}"
+    map["boxvR;"] = "\u{255E}"
+    map["boxvr;"] = "\u{251C}"
+    map["bprime;"] = "\u{2035}"
+    map["Breve;"] = "\u{2D8}"
+    map["breve;"] = "\u{2D8}"
+    map["brvbar;"] = "\u{A6}"
+    map["Bscr;"] = "\u{212C}"
+    map["bscr;"] = "\u{1D4B7}"
+    map["bsemi;"] = "\u{204F}"
+    map["bsim;"] = "\u{223D}"
+    map["bsime;"] = "\u{22CD}"
+    map["bsol;"] = "\u{5C}"
+    map["bsolb;"] = "\u{29C5}"
+    map["bsolhsub;"] = "\u{27C8}"
+    map["bull;"] = "\u{2022}"
+    map["bullet;"] = "\u{2022}"
+    map["bump;"] = "\u{224E}"
+    map["bumpE;"] = "\u{2AAE}"
+    map["bumpe;"] = "\u{224F}"
+    map["Bumpeq;"] = "\u{224E}"
+    map["bumpeq;"] = "\u{224F}"
+    map["Cacute;"] = "\u{106}"
+    map["cacute;"] = "\u{107}"
+    map["Cap;"] = "\u{22D2}"
+    map["cap;"] = "\u{2229}"
+    map["capand;"] = "\u{2A44}"
+    map["capbrcup;"] = "\u{2A49}"
+    map["capcap;"] = "\u{2A4B}"
+    map["capcup;"] = "\u{2A47}"
+    map["capdot;"] = "\u{2A40}"
+    map["CapitalDifferentialD;"] = "\u{2145}"
+    map["caps;"] = "\u{2229}\u{FE00}"
+    map["caret;"] = "\u{2041}"
+    map["caron;"] = "\u{2C7}"
+    map["Cayleys;"] = "\u{212D}"
+    map["ccaps;"] = "\u{2A4D}"
+    map["Ccaron;"] = "\u{10C}"
+    map["ccaron;"] = "\u{10D}"
+    map["Ccedil;"] = "\u{C7}"
+    map["ccedil;"] = "\u{E7}"
+    map["Ccirc;"] = "\u{108}"
+    map["ccirc;"] = "\u{109}"
+    map["Cconint;"] = "\u{2230}"
+    map["ccups;"] = "\u{2A4C}"
+    map["ccupssm;"] = "\u{2A50}"
+    map["Cdot;"] = "\u{10A}"
+    map["cdot;"] = "\u{10B}"
+    map["cedil;"] = "\u{B8}"
+    map["Cedilla;"] = "\u{B8}"
+    map["cemptyv;"] = "\u{29B2}"
+    map["cent;"] = "\u{A2}"
+    map["CenterDot;"] = "\u{B7}"
+    map["centerdot;"] = "\u{B7}"
+    map["Cfr;"] = "\u{212D}"
+    map["cfr;"] = "\u{1D520}"
+    map["CHcy;"] = "\u{427}"
+    map["chcy;"] = "\u{447}"
+    map["check;"] = "\u{2713}"
+    map["checkmark;"] = "\u{2713}"
+    map["Chi;"] = "\u{3A7}"
+    map["chi;"] = "\u{3C7}"
+    map["cir;"] = "\u{25CB}"
+    map["circ;"] = "\u{2C6}"
+    map["circeq;"] = "\u{2257}"
+    map["circlearrowleft;"] = "\u{21BA}"
+    map["circlearrowright;"] = "\u{21BB}"
+    map["circledast;"] = "\u{229B}"
+    map["circledcirc;"] = "\u{229A}"
+    map["circleddash;"] = "\u{229D}"
+    map["CircleDot;"] = "\u{2299}"
+    map["circledR;"] = "\u{AE}"
+    map["circledS;"] = "\u{24C8}"
+    map["CircleMinus;"] = "\u{2296}"
+    map["CirclePlus;"] = "\u{2295}"
+    map["CircleTimes;"] = "\u{2297}"
+    map["cirE;"] = "\u{29C3}"
+    map["cire;"] = "\u{2257}"
+    map["cirfnint;"] = "\u{2A10}"
+    map["cirmid;"] = "\u{2AEF}"
+    map["cirscir;"] = "\u{29C2}"
+    map["ClockwiseContourIntegral;"] = "\u{2232}"
+    map["CloseCurlyDoubleQuote;"] = "\u{201D}"
+    map["CloseCurlyQuote;"] = "\u{2019}"
+    map["clubs;"] = "\u{2663}"
+    map["clubsuit;"] = "\u{2663}"
+    map["Colon;"] = "\u{2237}"
+    map["colon;"] = "\u{3A}"
+    map["Colone;"] = "\u{2A74}"
+    map["colone;"] = "\u{2254}"
+    map["coloneq;"] = "\u{2254}"
+    map["comma;"] = "\u{2C}"
+    map["commat;"] = "\u{40}"
+    map["comp;"] = "\u{2201}"
+    map["compfn;"] = "\u{2218}"
+    map["complement;"] = "\u{2201}"
+    map["complexes;"] = "\u{2102}"
+    map["cong;"] = "\u{2245}"
+    map["congdot;"] = "\u{2A6D}"
+    map["Congruent;"] = "\u{2261}"
+    map["Conint;"] = "\u{222F}"
+    map["conint;"] = "\u{222E}"
+    map["ContourIntegral;"] = "\u{222E}"
+    map["Copf;"] = "\u{2102}"
+    map["copf;"] = "\u{1D554}"
+    map["coprod;"] = "\u{2210}"
+    map["Coproduct;"] = "\u{2210}"
+    map["COPY;"] = "\u{A9}"
+    map["copy;"] = "\u{A9}"
+    map["copysr;"] = "\u{2117}"
+    map["CounterClockwiseContourIntegral;"] = "\u{2233}"
+    map["crarr;"] = "\u{21B5}"
+    map["Cross;"] = "\u{2A2F}"
+    map["cross;"] = "\u{2717}"
+    map["Cscr;"] = "\u{1D49E}"
+    map["cscr;"] = "\u{1D4B8}"
+    map["csub;"] = "\u{2ACF}"
+    map["csube;"] = "\u{2AD1}"
+    map["csup;"] = "\u{2AD0}"
+    map["csupe;"] = "\u{2AD2}"
+    map["ctdot;"] = "\u{22EF}"
+    map["cudarrl;"] = "\u{2938}"
+    map["cudarrr;"] = "\u{2935}"
+    map["cuepr;"] = "\u{22DE}"
+    map["cuesc;"] = "\u{22DF}"
+    map["cularr;"] = "\u{21B6}"
+    map["cularrp;"] = "\u{293D}"
+    map["Cup;"] = "\u{22D3}"
+    map["cup;"] = "\u{222A}"
+    map["cupbrcap;"] = "\u{2A48}"
+    map["CupCap;"] = "\u{224D}"
+    map["cupcap;"] = "\u{2A46}"
+    map["cupcup;"] = "\u{2A4A}"
+    map["cupdot;"] = "\u{228D}"
+    map["cupor;"] = "\u{2A45}"
+    map["cups;"] = "\u{222A}\u{FE00}"
+    map["curarr;"] = "\u{21B7}"
+    map["curarrm;"] = "\u{293C}"
+    map["curlyeqprec;"] = "\u{22DE}"
+    map["curlyeqsucc;"] = "\u{22DF}"
+    map["curlyvee;"] = "\u{22CE}"
+    map["curlywedge;"] = "\u{22CF}"
+    map["curren;"] = "\u{A4}"
+    map["curvearrowleft;"] = "\u{21B6}"
+    map["curvearrowright;"] = "\u{21B7}"
+    map["cuvee;"] = "\u{22CE}"
+    map["cuwed;"] = "\u{22CF}"
+    map["cwconint;"] = "\u{2232}"
+    map["cwint;"] = "\u{2231}"
+    map["cylcty;"] = "\u{232D}"
+    map["Dagger;"] = "\u{2021}"
+    map["dagger;"] = "\u{2020}"
+    map["daleth;"] = "\u{2138}"
+    map["Darr;"] = "\u{21A1}"
+    map["dArr;"] = "\u{21D3}"
+    map["darr;"] = "\u{2193}"
+    map["dash;"] = "\u{2010}"
+    map["Dashv;"] = "\u{2AE4}"
+    map["dashv;"] = "\u{22A3}"
+    map["dbkarow;"] = "\u{290F}"
+    map["dblac;"] = "\u{2DD}"
+    map["Dcaron;"] = "\u{10E}"
+    map["dcaron;"] = "\u{10F}"
+    map["Dcy;"] = "\u{414}"
+    map["dcy;"] = "\u{434}"
+    map["DD;"] = "\u{2145}"
+    map["dd;"] = "\u{2146}"
+    map["ddagger;"] = "\u{2021}"
+    map["ddarr;"] = "\u{21CA}"
+    map["DDotrahd;"] = "\u{2911}"
+    map["ddotseq;"] = "\u{2A77}"
+    map["deg;"] = "\u{B0}"
+    map["Del;"] = "\u{2207}"
+    map["Delta;"] = "\u{394}"
+    map["delta;"] = "\u{3B4}"
+    map["demptyv;"] = "\u{29B1}"
+    map["dfisht;"] = "\u{297F}"
+    map["Dfr;"] = "\u{1D507}"
+    map["dfr;"] = "\u{1D521}"
+    map["dHar;"] = "\u{2965}"
+    map["dharl;"] = "\u{21C3}"
+    map["dharr;"] = "\u{21C2}"
+    map["DiacriticalAcute;"] = "\u{B4}"
+    map["DiacriticalDot;"] = "\u{2D9}"
+    map["DiacriticalDoubleAcute;"] = "\u{2DD}"
+    map["DiacriticalGrave;"] = "\u{60}"
+    map["DiacriticalTilde;"] = "\u{2DC}"
+    map["diam;"] = "\u{22C4}"
+    map["Diamond;"] = "\u{22C4}"
+    map["diamond;"] = "\u{22C4}"
+    map["diamondsuit;"] = "\u{2666}"
+    map["diams;"] = "\u{2666}"
+    map["die;"] = "\u{A8}"
+    map["DifferentialD;"] = "\u{2146}"
+    map["digamma;"] = "\u{3DD}"
+    map["disin;"] = "\u{22F2}"
+    map["div;"] = "\u{F7}"
+    map["divide;"] = "\u{F7}"
+    map["divideontimes;"] = "\u{22C7}"
+    map["divonx;"] = "\u{22C7}"
+    map["DJcy;"] = "\u{402}"
+    map["djcy;"] = "\u{452}"
+    map["dlcorn;"] = "\u{231E}"
+    map["dlcrop;"] = "\u{230D}"
+    map["dollar;"] = "\u{24}"
+    map["Dopf;"] = "\u{1D53B}"
+    map["dopf;"] = "\u{1D555}"
+    map["Dot;"] = "\u{A8}"
+    map["dot;"] = "\u{2D9}"
+    map["DotDot;"] = "\u{20DC}"
+    map["doteq;"] = "\u{2250}"
+    map["doteqdot;"] = "\u{2251}"
+    map["DotEqual;"] = "\u{2250}"
+    map["dotminus;"] = "\u{2238}"
+    map["dotplus;"] = "\u{2214}"
+    map["dotsquare;"] = "\u{22A1}"
+    map["doublebarwedge;"] = "\u{2306}"
+    map["DoubleContourIntegral;"] = "\u{222F}"
+    map["DoubleDot;"] = "\u{A8}"
+    map["DoubleDownArrow;"] = "\u{21D3}"
+    map["DoubleLeftArrow;"] = "\u{21D0}"
+    map["DoubleLeftRightArrow;"] = "\u{21D4}"
+    map["DoubleLeftTee;"] = "\u{2AE4}"
+    map["DoubleLongLeftArrow;"] = "\u{27F8}"
+    map["DoubleLongLeftRightArrow;"] = "\u{27FA}"
+    map["DoubleLongRightArrow;"] = "\u{27F9}"
+    map["DoubleRightArrow;"] = "\u{21D2}"
+    map["DoubleRightTee;"] = "\u{22A8}"
+    map["DoubleUpArrow;"] = "\u{21D1}"
+    map["DoubleUpDownArrow;"] = "\u{21D5}"
+    map["DoubleVerticalBar;"] = "\u{2225}"
+    map["DownArrow;"] = "\u{2193}"
+    map["Downarrow;"] = "\u{21D3}"
+    map["downarrow;"] = "\u{2193}"
+    map["DownArrowBar;"] = "\u{2913}"
+    map["DownArrowUpArrow;"] = "\u{21F5}"
+    map["DownBreve;"] = "\u{311}"
+    map["downdownarrows;"] = "\u{21CA}"
+    map["downharpoonleft;"] = "\u{21C3}"
+    map["downharpoonright;"] = "\u{21C2}"
+    map["DownLeftRightVector;"] = "\u{2950}"
+    map["DownLeftTeeVector;"] = "\u{295E}"
+    map["DownLeftVector;"] = "\u{21BD}"
+    map["DownLeftVectorBar;"] = "\u{2956}"
+    map["DownRightTeeVector;"] = "\u{295F}"
+    map["DownRightVector;"] = "\u{21C1}"
+    map["DownRightVectorBar;"] = "\u{2957}"
+    map["DownTee;"] = "\u{22A4}"
+    map["DownTeeArrow;"] = "\u{21A7}"
+    map["drbkarow;"] = "\u{2910}"
+    map["drcorn;"] = "\u{231F}"
+    map["drcrop;"] = "\u{230C}"
+    map["Dscr;"] = "\u{1D49F}"
+    map["dscr;"] = "\u{1D4B9}"
+    map["DScy;"] = "\u{405}"
+    map["dscy;"] = "\u{455}"
+    map["dsol;"] = "\u{29F6}"
+    map["Dstrok;"] = "\u{110}"
+    map["dstrok;"] = "\u{111}"
+    map["dtdot;"] = "\u{22F1}"
+    map["dtri;"] = "\u{25BF}"
+    map["dtrif;"] = "\u{25BE}"
+    map["duarr;"] = "\u{21F5}"
+    map["duhar;"] = "\u{296F}"
+    map["dwangle;"] = "\u{29A6}"
+    map["DZcy;"] = "\u{40F}"
+    map["dzcy;"] = "\u{45F}"
+    map["dzigrarr;"] = "\u{27FF}"
+    map["Eacute;"] = "\u{C9}"
+    map["eacute;"] = "\u{E9}"
+    map["easter;"] = "\u{2A6E}"
+    map["Ecaron;"] = "\u{11A}"
+    map["ecaron;"] = "\u{11B}"
+    map["ecir;"] = "\u{2256}"
+    map["Ecirc;"] = "\u{CA}"
+    map["ecirc;"] = "\u{EA}"
+    map["ecolon;"] = "\u{2255}"
+    map["Ecy;"] = "\u{42D}"
+    map["ecy;"] = "\u{44D}"
+    map["eDDot;"] = "\u{2A77}"
+    map["Edot;"] = "\u{116}"
+    map["eDot;"] = "\u{2251}"
+    map["edot;"] = "\u{117}"
+    map["ee;"] = "\u{2147}"
+    map["efDot;"] = "\u{2252}"
+    map["Efr;"] = "\u{1D508}"
+    map["efr;"] = "\u{1D522}"
+    map["eg;"] = "\u{2A9A}"
+    map["Egrave;"] = "\u{C8}"
+    map["egrave;"] = "\u{E8}"
+    map["egs;"] = "\u{2A96}"
+    map["egsdot;"] = "\u{2A98}"
+    map["el;"] = "\u{2A99}"
+    map["Element;"] = "\u{2208}"
+    map["elinters;"] = "\u{23E7}"
+    map["ell;"] = "\u{2113}"
+    map["els;"] = "\u{2A95}"
+    map["elsdot;"] = "\u{2A97}"
+    map["Emacr;"] = "\u{112}"
+    map["emacr;"] = "\u{113}"
+    map["empty;"] = "\u{2205}"
+    map["emptyset;"] = "\u{2205}"
+    map["EmptySmallSquare;"] = "\u{25FB}"
+    map["emptyv;"] = "\u{2205}"
+    map["EmptyVerySmallSquare;"] = "\u{25AB}"
+    map["emsp;"] = "\u{2003}"
+    map["emsp13;"] = "\u{2004}"
+    map["emsp14;"] = "\u{2005}"
+    map["ENG;"] = "\u{14A}"
+    map["eng;"] = "\u{14B}"
+    map["ensp;"] = "\u{2002}"
+    map["Eogon;"] = "\u{118}"
+    map["eogon;"] = "\u{119}"
+    map["Eopf;"] = "\u{1D53C}"
+    map["eopf;"] = "\u{1D556}"
+    map["epar;"] = "\u{22D5}"
+    map["eparsl;"] = "\u{29E3}"
+    map["eplus;"] = "\u{2A71}"
+    map["epsi;"] = "\u{3B5}"
+    map["Epsilon;"] = "\u{395}"
+    map["epsilon;"] = "\u{3B5}"
+    map["epsiv;"] = "\u{3F5}"
+    map["eqcirc;"] = "\u{2256}"
+    map["eqcolon;"] = "\u{2255}"
+    map["eqsim;"] = "\u{2242}"
+    map["eqslantgtr;"] = "\u{2A96}"
+    map["eqslantless;"] = "\u{2A95}"
+    map["Equal;"] = "\u{2A75}"
+    map["equals;"] = "\u{3D}"
+    map["EqualTilde;"] = "\u{2242}"
+    map["equest;"] = "\u{225F}"
+    map["Equilibrium;"] = "\u{21CC}"
+    map["equiv;"] = "\u{2261}"
+    map["equivDD;"] = "\u{2A78}"
+    map["eqvparsl;"] = "\u{29E5}"
+    map["erarr;"] = "\u{2971}"
+    map["erDot;"] = "\u{2253}"
+    map["Escr;"] = "\u{2130}"
+    map["escr;"] = "\u{212F}"
+    map["esdot;"] = "\u{2250}"
+    map["Esim;"] = "\u{2A73}"
+    map["esim;"] = "\u{2242}"
+    map["Eta;"] = "\u{397}"
+    map["eta;"] = "\u{3B7}"
+    map["ETH;"] = "\u{D0}"
+    map["eth;"] = "\u{F0}"
+    map["Euml;"] = "\u{CB}"
+    map["euml;"] = "\u{EB}"
+    map["euro;"] = "\u{20AC}"
+    map["excl;"] = "\u{21}"
+    map["exist;"] = "\u{2203}"
+    map["Exists;"] = "\u{2203}"
+    map["expectation;"] = "\u{2130}"
+    map["ExponentialE;"] = "\u{2147}"
+    map["exponentiale;"] = "\u{2147}"
+    map["fallingdotseq;"] = "\u{2252}"
+    map["Fcy;"] = "\u{424}"
+    map["fcy;"] = "\u{444}"
+    map["female;"] = "\u{2640}"
+    map["ffilig;"] = "\u{FB03}"
+    map["fflig;"] = "\u{FB00}"
+    map["ffllig;"] = "\u{FB04}"
+    map["Ffr;"] = "\u{1D509}"
+    map["ffr;"] = "\u{1D523}"
+    map["filig;"] = "\u{FB01}"
+    map["FilledSmallSquare;"] = "\u{25FC}"
+    map["FilledVerySmallSquare;"] = "\u{25AA}"
     // Skip "fjlig;" due to Swift not recognizing it as a single grapheme cluster
-    // "fjlig;":"\u{66}\u{6A}",
-
-    "flat;":"\u{266D}","fllig;":"\u{FB02}","fltns;":"\u{25B1}","fnof;":"\u{192}",
-    "Fopf;":"\u{1D53D}","fopf;":"\u{1D557}","ForAll;":"\u{2200}","forall;":"\u{2200}",
-    "fork;":"\u{22D4}","forkv;":"\u{2AD9}","Fouriertrf;":"\u{2131}","fpartint;":"\u{2A0D}",
-    "frac12;":"\u{BD}","frac13;":"\u{2153}","frac14;":"\u{BC}","frac15;":"\u{2155}",
-    "frac16;":"\u{2159}","frac18;":"\u{215B}","frac23;":"\u{2154}","frac25;":"\u{2156}",
-    "frac34;":"\u{BE}","frac35;":"\u{2157}","frac38;":"\u{215C}","frac45;":"\u{2158}",
-    "frac56;":"\u{215A}","frac58;":"\u{215D}","frac78;":"\u{215E}","frasl;":"\u{2044}",
-    "frown;":"\u{2322}","Fscr;":"\u{2131}","fscr;":"\u{1D4BB}","gacute;":"\u{1F5}",
-    "Gamma;":"\u{393}","gamma;":"\u{3B3}","Gammad;":"\u{3DC}","gammad;":"\u{3DD}",
-    "gap;":"\u{2A86}","Gbreve;":"\u{11E}","gbreve;":"\u{11F}","Gcedil;":"\u{122}",
-    "Gcirc;":"\u{11C}","gcirc;":"\u{11D}","Gcy;":"\u{413}","gcy;":"\u{433}",
-    "Gdot;":"\u{120}","gdot;":"\u{121}","gE;":"\u{2267}","ge;":"\u{2265}",
-    "gEl;":"\u{2A8C}","gel;":"\u{22DB}","geq;":"\u{2265}","geqq;":"\u{2267}",
-    "geqslant;":"\u{2A7E}","ges;":"\u{2A7E}","gescc;":"\u{2AA9}","gesdot;":"\u{2A80}",
-    "gesdoto;":"\u{2A82}","gesdotol;":"\u{2A84}","gesl;":"\u{22DB}\u{FE00}","gesles;":"\u{2A94}",
-    "Gfr;":"\u{1D50A}","gfr;":"\u{1D524}","Gg;":"\u{22D9}","gg;":"\u{226B}",
-    "ggg;":"\u{22D9}","gimel;":"\u{2137}","GJcy;":"\u{403}","gjcy;":"\u{453}",
-    "gl;":"\u{2277}","gla;":"\u{2AA5}","glE;":"\u{2A92}","glj;":"\u{2AA4}",
-    "gnap;":"\u{2A8A}","gnapprox;":"\u{2A8A}","gnE;":"\u{2269}","gne;":"\u{2A88}",
-    "gneq;":"\u{2A88}","gneqq;":"\u{2269}","gnsim;":"\u{22E7}","Gopf;":"\u{1D53E}",
-    "gopf;":"\u{1D558}","grave;":"\u{60}","GreaterEqual;":"\u{2265}","GreaterEqualLess;":"\u{22DB}",
-    "GreaterFullEqual;":"\u{2267}","GreaterGreater;":"\u{2AA2}","GreaterLess;":"\u{2277}","GreaterSlantEqual;":"\u{2A7E}",
-    "GreaterTilde;":"\u{2273}","Gscr;":"\u{1D4A2}","gscr;":"\u{210A}","gsim;":"\u{2273}",
-    "gsime;":"\u{2A8E}","gsiml;":"\u{2A90}","GT;":"\u{3E}","Gt;":"\u{226B}",
-    "gt;":"\u{3E}","gtcc;":"\u{2AA7}","gtcir;":"\u{2A7A}","gtdot;":"\u{22D7}",
-    "gtlPar;":"\u{2995}","gtquest;":"\u{2A7C}","gtrapprox;":"\u{2A86}","gtrarr;":"\u{2978}",
-    "gtrdot;":"\u{22D7}","gtreqless;":"\u{22DB}","gtreqqless;":"\u{2A8C}","gtrless;":"\u{2277}",
-    "gtrsim;":"\u{2273}","gvertneqq;":"\u{2269}\u{FE00}","gvnE;":"\u{2269}\u{FE00}","Hacek;":"\u{2C7}",
-    "hairsp;":"\u{200A}","half;":"\u{BD}","hamilt;":"\u{210B}","HARDcy;":"\u{42A}",
-    "hardcy;":"\u{44A}","hArr;":"\u{21D4}","harr;":"\u{2194}","harrcir;":"\u{2948}",
-    "harrw;":"\u{21AD}","Hat;":"\u{5E}","hbar;":"\u{210F}","Hcirc;":"\u{124}",
-    "hcirc;":"\u{125}","hearts;":"\u{2665}","heartsuit;":"\u{2665}","hellip;":"\u{2026}",
-    "hercon;":"\u{22B9}","Hfr;":"\u{210C}","hfr;":"\u{1D525}","HilbertSpace;":"\u{210B}",
-    "hksearow;":"\u{2925}","hkswarow;":"\u{2926}","hoarr;":"\u{21FF}","homtht;":"\u{223B}",
-    "hookleftarrow;":"\u{21A9}","hookrightarrow;":"\u{21AA}","Hopf;":"\u{210D}","hopf;":"\u{1D559}",
-    "horbar;":"\u{2015}","HorizontalLine;":"\u{2500}","Hscr;":"\u{210B}","hscr;":"\u{1D4BD}",
-    "hslash;":"\u{210F}","Hstrok;":"\u{126}","hstrok;":"\u{127}","HumpDownHump;":"\u{224E}",
-    "HumpEqual;":"\u{224F}","hybull;":"\u{2043}","hyphen;":"\u{2010}","Iacute;":"\u{CD}",
-    "iacute;":"\u{ED}","ic;":"\u{2063}","Icirc;":"\u{CE}","icirc;":"\u{EE}",
-    "Icy;":"\u{418}","icy;":"\u{438}","Idot;":"\u{130}","IEcy;":"\u{415}",
-    "iecy;":"\u{435}","iexcl;":"\u{A1}","iff;":"\u{21D4}","Ifr;":"\u{2111}",
-    "ifr;":"\u{1D526}","Igrave;":"\u{CC}","igrave;":"\u{EC}","ii;":"\u{2148}",
-    "iiiint;":"\u{2A0C}","iiint;":"\u{222D}","iinfin;":"\u{29DC}","iiota;":"\u{2129}",
-    "IJlig;":"\u{132}","ijlig;":"\u{133}","Im;":"\u{2111}","Imacr;":"\u{12A}",
-    "imacr;":"\u{12B}","image;":"\u{2111}","ImaginaryI;":"\u{2148}","imagline;":"\u{2110}",
-    "imagpart;":"\u{2111}","imath;":"\u{131}","imof;":"\u{22B7}","imped;":"\u{1B5}",
-    "Implies;":"\u{21D2}","in;":"\u{2208}","incare;":"\u{2105}","infin;":"\u{221E}",
-    "infintie;":"\u{29DD}","inodot;":"\u{131}","Int;":"\u{222C}","int;":"\u{222B}",
-    "intcal;":"\u{22BA}","integers;":"\u{2124}","Integral;":"\u{222B}","intercal;":"\u{22BA}",
-    "Intersection;":"\u{22C2}","intlarhk;":"\u{2A17}","intprod;":"\u{2A3C}","InvisibleComma;":"\u{2063}",
-    "InvisibleTimes;":"\u{2062}","IOcy;":"\u{401}","iocy;":"\u{451}","Iogon;":"\u{12E}",
-    "iogon;":"\u{12F}","Iopf;":"\u{1D540}","iopf;":"\u{1D55A}","Iota;":"\u{399}",
-    "iota;":"\u{3B9}","iprod;":"\u{2A3C}","iquest;":"\u{BF}","Iscr;":"\u{2110}",
-    "iscr;":"\u{1D4BE}","isin;":"\u{2208}","isindot;":"\u{22F5}","isinE;":"\u{22F9}",
-    "isins;":"\u{22F4}","isinsv;":"\u{22F3}","isinv;":"\u{2208}","it;":"\u{2062}",
-    "Itilde;":"\u{128}","itilde;":"\u{129}","Iukcy;":"\u{406}","iukcy;":"\u{456}",
-    "Iuml;":"\u{CF}","iuml;":"\u{EF}","Jcirc;":"\u{134}","jcirc;":"\u{135}",
-    "Jcy;":"\u{419}","jcy;":"\u{439}","Jfr;":"\u{1D50D}","jfr;":"\u{1D527}",
-    "jmath;":"\u{237}","Jopf;":"\u{1D541}","jopf;":"\u{1D55B}","Jscr;":"\u{1D4A5}",
-    "jscr;":"\u{1D4BF}","Jsercy;":"\u{408}","jsercy;":"\u{458}","Jukcy;":"\u{404}",
-    "jukcy;":"\u{454}","Kappa;":"\u{39A}","kappa;":"\u{3BA}","kappav;":"\u{3F0}",
-    "Kcedil;":"\u{136}","kcedil;":"\u{137}","Kcy;":"\u{41A}","kcy;":"\u{43A}",
-    "Kfr;":"\u{1D50E}","kfr;":"\u{1D528}","kgreen;":"\u{138}","KHcy;":"\u{425}",
-    "khcy;":"\u{445}","KJcy;":"\u{40C}","kjcy;":"\u{45C}","Kopf;":"\u{1D542}",
-    "kopf;":"\u{1D55C}","Kscr;":"\u{1D4A6}","kscr;":"\u{1D4C0}","lAarr;":"\u{21DA}",
-    "Lacute;":"\u{139}","lacute;":"\u{13A}","laemptyv;":"\u{29B4}","lagran;":"\u{2112}",
-    "Lambda;":"\u{39B}","lambda;":"\u{3BB}","Lang;":"\u{27EA}","lang;":"\u{27E8}",
-    "langd;":"\u{2991}","langle;":"\u{27E8}","lap;":"\u{2A85}","Laplacetrf;":"\u{2112}",
-    "laquo;":"\u{AB}","Larr;":"\u{219E}","lArr;":"\u{21D0}","larr;":"\u{2190}",
-    "larrb;":"\u{21E4}","larrbfs;":"\u{291F}","larrfs;":"\u{291D}","larrhk;":"\u{21A9}",
-    "larrlp;":"\u{21AB}","larrpl;":"\u{2939}","larrsim;":"\u{2973}","larrtl;":"\u{21A2}",
-    "lat;":"\u{2AAB}","lAtail;":"\u{291B}","latail;":"\u{2919}","late;":"\u{2AAD}",
-    "lates;":"\u{2AAD}\u{FE00}","lBarr;":"\u{290E}","lbarr;":"\u{290C}","lbbrk;":"\u{2772}",
-    "lbrace;":"\u{7B}","lbrack;":"\u{5B}","lbrke;":"\u{298B}","lbrksld;":"\u{298F}",
-    "lbrkslu;":"\u{298D}","Lcaron;":"\u{13D}","lcaron;":"\u{13E}","Lcedil;":"\u{13B}",
-    "lcedil;":"\u{13C}","lceil;":"\u{2308}","lcub;":"\u{7B}","Lcy;":"\u{41B}",
-    "lcy;":"\u{43B}","ldca;":"\u{2936}","ldquo;":"\u{201C}","ldquor;":"\u{201E}",
-    "ldrdhar;":"\u{2967}","ldrushar;":"\u{294B}","ldsh;":"\u{21B2}","lE;":"\u{2266}",
-    "le;":"\u{2264}","LeftAngleBracket;":"\u{27E8}","LeftArrow;":"\u{2190}","Leftarrow;":"\u{21D0}",
-    "leftarrow;":"\u{2190}","LeftArrowBar;":"\u{21E4}","LeftArrowRightArrow;":"\u{21C6}","leftarrowtail;":"\u{21A2}",
-    "LeftCeiling;":"\u{2308}","LeftDoubleBracket;":"\u{27E6}","LeftDownTeeVector;":"\u{2961}","LeftDownVector;":"\u{21C3}",
-    "LeftDownVectorBar;":"\u{2959}","LeftFloor;":"\u{230A}","leftharpoondown;":"\u{21BD}","leftharpoonup;":"\u{21BC}",
-    "leftleftarrows;":"\u{21C7}","LeftRightArrow;":"\u{2194}","Leftrightarrow;":"\u{21D4}","leftrightarrow;":"\u{2194}",
-    "leftrightarrows;":"\u{21C6}","leftrightharpoons;":"\u{21CB}","leftrightsquigarrow;":"\u{21AD}","LeftRightVector;":"\u{294E}",
-    "LeftTee;":"\u{22A3}","LeftTeeArrow;":"\u{21A4}","LeftTeeVector;":"\u{295A}","leftthreetimes;":"\u{22CB}",
-    "LeftTriangle;":"\u{22B2}","LeftTriangleBar;":"\u{29CF}","LeftTriangleEqual;":"\u{22B4}","LeftUpDownVector;":"\u{2951}",
-    "LeftUpTeeVector;":"\u{2960}","LeftUpVector;":"\u{21BF}","LeftUpVectorBar;":"\u{2958}","LeftVector;":"\u{21BC}",
-    "LeftVectorBar;":"\u{2952}","lEg;":"\u{2A8B}","leg;":"\u{22DA}","leq;":"\u{2264}",
-    "leqq;":"\u{2266}","leqslant;":"\u{2A7D}","les;":"\u{2A7D}","lescc;":"\u{2AA8}",
-    "lesdot;":"\u{2A7F}","lesdoto;":"\u{2A81}","lesdotor;":"\u{2A83}","lesg;":"\u{22DA}\u{FE00}",
-    "lesges;":"\u{2A93}","lessapprox;":"\u{2A85}","lessdot;":"\u{22D6}","lesseqgtr;":"\u{22DA}",
-    "lesseqqgtr;":"\u{2A8B}","LessEqualGreater;":"\u{22DA}","LessFullEqual;":"\u{2266}","LessGreater;":"\u{2276}",
-    "lessgtr;":"\u{2276}","LessLess;":"\u{2AA1}","lesssim;":"\u{2272}","LessSlantEqual;":"\u{2A7D}",
-    "LessTilde;":"\u{2272}","lfisht;":"\u{297C}","lfloor;":"\u{230A}","Lfr;":"\u{1D50F}",
-    "lfr;":"\u{1D529}","lg;":"\u{2276}","lgE;":"\u{2A91}","lHar;":"\u{2962}",
-    "lhard;":"\u{21BD}","lharu;":"\u{21BC}","lharul;":"\u{296A}","lhblk;":"\u{2584}",
-    "LJcy;":"\u{409}","ljcy;":"\u{459}","Ll;":"\u{22D8}","ll;":"\u{226A}",
-    "llarr;":"\u{21C7}","llcorner;":"\u{231E}","Lleftarrow;":"\u{21DA}","llhard;":"\u{296B}",
-    "lltri;":"\u{25FA}","Lmidot;":"\u{13F}","lmidot;":"\u{140}","lmoust;":"\u{23B0}",
-    "lmoustache;":"\u{23B0}","lnap;":"\u{2A89}","lnapprox;":"\u{2A89}","lnE;":"\u{2268}",
-    "lne;":"\u{2A87}","lneq;":"\u{2A87}","lneqq;":"\u{2268}","lnsim;":"\u{22E6}",
-    "loang;":"\u{27EC}","loarr;":"\u{21FD}","lobrk;":"\u{27E6}","LongLeftArrow;":"\u{27F5}",
-    "Longleftarrow;":"\u{27F8}","longleftarrow;":"\u{27F5}","LongLeftRightArrow;":"\u{27F7}","Longleftrightarrow;":"\u{27FA}",
-    "longleftrightarrow;":"\u{27F7}","longmapsto;":"\u{27FC}","LongRightArrow;":"\u{27F6}","Longrightarrow;":"\u{27F9}",
-    "longrightarrow;":"\u{27F6}","looparrowleft;":"\u{21AB}","looparrowright;":"\u{21AC}","lopar;":"\u{2985}",
-    "Lopf;":"\u{1D543}","lopf;":"\u{1D55D}","loplus;":"\u{2A2D}","lotimes;":"\u{2A34}",
-    "lowast;":"\u{2217}","lowbar;":"\u{5F}","LowerLeftArrow;":"\u{2199}","LowerRightArrow;":"\u{2198}",
-    "loz;":"\u{25CA}","lozenge;":"\u{25CA}","lozf;":"\u{29EB}","lpar;":"\u{28}",
-    "lparlt;":"\u{2993}","lrarr;":"\u{21C6}","lrcorner;":"\u{231F}","lrhar;":"\u{21CB}",
-    "lrhard;":"\u{296D}","lrm;":"\u{200E}","lrtri;":"\u{22BF}","lsaquo;":"\u{2039}",
-    "Lscr;":"\u{2112}","lscr;":"\u{1D4C1}","Lsh;":"\u{21B0}","lsh;":"\u{21B0}",
-    "lsim;":"\u{2272}","lsime;":"\u{2A8D}","lsimg;":"\u{2A8F}","lsqb;":"\u{5B}",
-    "lsquo;":"\u{2018}","lsquor;":"\u{201A}","Lstrok;":"\u{141}","lstrok;":"\u{142}",
-    "LT;":"\u{3C}","Lt;":"\u{226A}","lt;":"\u{3C}","ltcc;":"\u{2AA6}",
-    "ltcir;":"\u{2A79}","ltdot;":"\u{22D6}","lthree;":"\u{22CB}","ltimes;":"\u{22C9}",
-    "ltlarr;":"\u{2976}","ltquest;":"\u{2A7B}","ltri;":"\u{25C3}","ltrie;":"\u{22B4}",
-    "ltrif;":"\u{25C2}","ltrPar;":"\u{2996}","lurdshar;":"\u{294A}","luruhar;":"\u{2966}",
-    "lvertneqq;":"\u{2268}\u{FE00}","lvnE;":"\u{2268}\u{FE00}","macr;":"\u{AF}","male;":"\u{2642}",
-    "malt;":"\u{2720}","maltese;":"\u{2720}","Map;":"\u{2905}","map;":"\u{21A6}",
-    "mapsto;":"\u{21A6}","mapstodown;":"\u{21A7}","mapstoleft;":"\u{21A4}","mapstoup;":"\u{21A5}",
-    "marker;":"\u{25AE}","mcomma;":"\u{2A29}","Mcy;":"\u{41C}","mcy;":"\u{43C}",
-    "mdash;":"\u{2014}","mDDot;":"\u{223A}","measuredangle;":"\u{2221}","MediumSpace;":"\u{205F}",
-    "Mellintrf;":"\u{2133}","Mfr;":"\u{1D510}","mfr;":"\u{1D52A}","mho;":"\u{2127}",
-    "micro;":"\u{B5}","mid;":"\u{2223}","midast;":"\u{2A}","midcir;":"\u{2AF0}",
-    "middot;":"\u{B7}","minus;":"\u{2212}","minusb;":"\u{229F}","minusd;":"\u{2238}",
-    "minusdu;":"\u{2A2A}","MinusPlus;":"\u{2213}","mlcp;":"\u{2ADB}","mldr;":"\u{2026}"
-]
-
-let namedCharactersDecodeMap2: [String: Character] = [
-    "mnplus;":"\u{2213}","models;":"\u{22A7}","Mopf;":"\u{1D544}","mopf;":"\u{1D55E}",
-    "mp;":"\u{2213}","Mscr;":"\u{2133}","mscr;":"\u{1D4C2}","mstpos;":"\u{223E}",
-    "Mu;":"\u{39C}","mu;":"\u{3BC}","multimap;":"\u{22B8}","mumap;":"\u{22B8}",
-    "nabla;":"\u{2207}","Nacute;":"\u{143}","nacute;":"\u{144}","nang;":"\u{2220}\u{20D2}",
-    "nap;":"\u{2249}","napE;":"\u{2A70}\u{338}","napid;":"\u{224B}\u{338}","napos;":"\u{149}",
-    "napprox;":"\u{2249}","natur;":"\u{266E}","natural;":"\u{266E}","naturals;":"\u{2115}",
-    "nbsp;":"\u{A0}","nbump;":"\u{224E}\u{338}","nbumpe;":"\u{224F}\u{338}","ncap;":"\u{2A43}",
-    "Ncaron;":"\u{147}","ncaron;":"\u{148}","Ncedil;":"\u{145}","ncedil;":"\u{146}",
-    "ncong;":"\u{2247}","ncongdot;":"\u{2A6D}\u{338}","ncup;":"\u{2A42}","Ncy;":"\u{41D}",
-    "ncy;":"\u{43D}","ndash;":"\u{2013}","ne;":"\u{2260}","nearhk;":"\u{2924}",
-    "neArr;":"\u{21D7}","nearr;":"\u{2197}","nearrow;":"\u{2197}","nedot;":"\u{2250}\u{338}",
-    "NegativeMediumSpace;":"\u{200B}","NegativeThickSpace;":"\u{200B}","NegativeThinSpace;":"\u{200B}","NegativeVeryThinSpace;":"\u{200B}",
-    "nequiv;":"\u{2262}","nesear;":"\u{2928}","nesim;":"\u{2242}\u{338}","NestedGreaterGreater;":"\u{226B}",
-    "NestedLessLess;":"\u{226A}","NewLine;":"\u{A}","nexist;":"\u{2204}","nexists;":"\u{2204}",
-    "Nfr;":"\u{1D511}","nfr;":"\u{1D52B}","ngE;":"\u{2267}\u{338}","nge;":"\u{2271}",
-    "ngeq;":"\u{2271}","ngeqq;":"\u{2267}\u{338}","ngeqslant;":"\u{2A7E}\u{338}","nges;":"\u{2A7E}\u{338}",
-    "nGg;":"\u{22D9}\u{338}","ngsim;":"\u{2275}","nGt;":"\u{226B}\u{20D2}","ngt;":"\u{226F}",
-    "ngtr;":"\u{226F}","nGtv;":"\u{226B}\u{338}","nhArr;":"\u{21CE}","nharr;":"\u{21AE}",
-    "nhpar;":"\u{2AF2}","ni;":"\u{220B}","nis;":"\u{22FC}","nisd;":"\u{22FA}",
-    "niv;":"\u{220B}","NJcy;":"\u{40A}","njcy;":"\u{45A}","nlArr;":"\u{21CD}",
-    "nlarr;":"\u{219A}","nldr;":"\u{2025}","nlE;":"\u{2266}\u{338}","nle;":"\u{2270}",
-    "nLeftarrow;":"\u{21CD}","nleftarrow;":"\u{219A}","nLeftrightarrow;":"\u{21CE}","nleftrightarrow;":"\u{21AE}",
-    "nleq;":"\u{2270}","nleqq;":"\u{2266}\u{338}","nleqslant;":"\u{2A7D}\u{338}","nles;":"\u{2A7D}\u{338}",
-    "nless;":"\u{226E}","nLl;":"\u{22D8}\u{338}","nlsim;":"\u{2274}","nLt;":"\u{226A}\u{20D2}",
-    "nlt;":"\u{226E}","nltri;":"\u{22EA}","nltrie;":"\u{22EC}","nLtv;":"\u{226A}\u{338}",
-    "nmid;":"\u{2224}","NoBreak;":"\u{2060}","NonBreakingSpace;":"\u{A0}","Nopf;":"\u{2115}",
-    "nopf;":"\u{1D55F}","Not;":"\u{2AEC}","not;":"\u{AC}","NotCongruent;":"\u{2262}",
-    "NotCupCap;":"\u{226D}","NotDoubleVerticalBar;":"\u{2226}","NotElement;":"\u{2209}","NotEqual;":"\u{2260}",
-    "NotEqualTilde;":"\u{2242}\u{338}","NotExists;":"\u{2204}","NotGreater;":"\u{226F}","NotGreaterEqual;":"\u{2271}",
-    "NotGreaterFullEqual;":"\u{2267}\u{338}","NotGreaterGreater;":"\u{226B}\u{338}","NotGreaterLess;":"\u{2279}","NotGreaterSlantEqual;":"\u{2A7E}\u{338}",
-    "NotGreaterTilde;":"\u{2275}","NotHumpDownHump;":"\u{224E}\u{338}","NotHumpEqual;":"\u{224F}\u{338}","notin;":"\u{2209}",
-    "notindot;":"\u{22F5}\u{338}","notinE;":"\u{22F9}\u{338}","notinva;":"\u{2209}","notinvb;":"\u{22F7}",
-    "notinvc;":"\u{22F6}","NotLeftTriangle;":"\u{22EA}","NotLeftTriangleBar;":"\u{29CF}\u{338}","NotLeftTriangleEqual;":"\u{22EC}",
-    "NotLess;":"\u{226E}","NotLessEqual;":"\u{2270}","NotLessGreater;":"\u{2278}","NotLessLess;":"\u{226A}\u{338}",
-    "NotLessSlantEqual;":"\u{2A7D}\u{338}","NotLessTilde;":"\u{2274}","NotNestedGreaterGreater;":"\u{2AA2}\u{338}","NotNestedLessLess;":"\u{2AA1}\u{338}",
-    "notni;":"\u{220C}","notniva;":"\u{220C}","notnivb;":"\u{22FE}","notnivc;":"\u{22FD}",
-    "NotPrecedes;":"\u{2280}","NotPrecedesEqual;":"\u{2AAF}\u{338}","NotPrecedesSlantEqual;":"\u{22E0}","NotReverseElement;":"\u{220C}",
-    "NotRightTriangle;":"\u{22EB}","NotRightTriangleBar;":"\u{29D0}\u{338}","NotRightTriangleEqual;":"\u{22ED}","NotSquareSubset;":"\u{228F}\u{338}",
-    "NotSquareSubsetEqual;":"\u{22E2}","NotSquareSuperset;":"\u{2290}\u{338}","NotSquareSupersetEqual;":"\u{22E3}","NotSubset;":"\u{2282}\u{20D2}",
-    "NotSubsetEqual;":"\u{2288}","NotSucceeds;":"\u{2281}","NotSucceedsEqual;":"\u{2AB0}\u{338}","NotSucceedsSlantEqual;":"\u{22E1}",
-    "NotSucceedsTilde;":"\u{227F}\u{338}","NotSuperset;":"\u{2283}\u{20D2}","NotSupersetEqual;":"\u{2289}","NotTilde;":"\u{2241}",
-    "NotTildeEqual;":"\u{2244}","NotTildeFullEqual;":"\u{2247}","NotTildeTilde;":"\u{2249}","NotVerticalBar;":"\u{2224}",
-    "npar;":"\u{2226}","nparallel;":"\u{2226}","nparsl;":"\u{2AFD}\u{20E5}","npart;":"\u{2202}\u{338}",
-    "npolint;":"\u{2A14}","npr;":"\u{2280}","nprcue;":"\u{22E0}","npre;":"\u{2AAF}\u{338}",
-    "nprec;":"\u{2280}","npreceq;":"\u{2AAF}\u{338}","nrArr;":"\u{21CF}","nrarr;":"\u{219B}",
-    "nrarrc;":"\u{2933}\u{338}","nrarrw;":"\u{219D}\u{338}","nRightarrow;":"\u{21CF}","nrightarrow;":"\u{219B}",
-    "nrtri;":"\u{22EB}","nrtrie;":"\u{22ED}","nsc;":"\u{2281}","nsccue;":"\u{22E1}",
-    "nsce;":"\u{2AB0}\u{338}","Nscr;":"\u{1D4A9}","nscr;":"\u{1D4C3}","nshortmid;":"\u{2224}",
-    "nshortparallel;":"\u{2226}","nsim;":"\u{2241}","nsime;":"\u{2244}","nsimeq;":"\u{2244}",
-    "nsmid;":"\u{2224}","nspar;":"\u{2226}","nsqsube;":"\u{22E2}","nsqsupe;":"\u{22E3}",
-    "nsub;":"\u{2284}","nsubE;":"\u{2AC5}\u{338}","nsube;":"\u{2288}","nsubset;":"\u{2282}\u{20D2}",
-    "nsubseteq;":"\u{2288}","nsubseteqq;":"\u{2AC5}\u{338}","nsucc;":"\u{2281}","nsucceq;":"\u{2AB0}\u{338}",
-    "nsup;":"\u{2285}","nsupE;":"\u{2AC6}\u{338}","nsupe;":"\u{2289}","nsupset;":"\u{2283}\u{20D2}",
-    "nsupseteq;":"\u{2289}","nsupseteqq;":"\u{2AC6}\u{338}","ntgl;":"\u{2279}","Ntilde;":"\u{D1}",
-    "ntilde;":"\u{F1}","ntlg;":"\u{2278}","ntriangleleft;":"\u{22EA}","ntrianglelefteq;":"\u{22EC}",
-    "ntriangleright;":"\u{22EB}","ntrianglerighteq;":"\u{22ED}","Nu;":"\u{39D}","nu;":"\u{3BD}",
-    "num;":"\u{23}","numero;":"\u{2116}","numsp;":"\u{2007}","nvap;":"\u{224D}\u{20D2}",
-    "nVDash;":"\u{22AF}","nVdash;":"\u{22AE}","nvDash;":"\u{22AD}","nvdash;":"\u{22AC}",
-    "nvge;":"\u{2265}\u{20D2}","nvgt;":"\u{3E}\u{20D2}","nvHarr;":"\u{2904}","nvinfin;":"\u{29DE}",
-    "nvlArr;":"\u{2902}","nvle;":"\u{2264}\u{20D2}","nvlt;":"\u{3C}\u{20D2}","nvltrie;":"\u{22B4}\u{20D2}",
-    "nvrArr;":"\u{2903}","nvrtrie;":"\u{22B5}\u{20D2}","nvsim;":"\u{223C}\u{20D2}","nwarhk;":"\u{2923}",
-    "nwArr;":"\u{21D6}","nwarr;":"\u{2196}","nwarrow;":"\u{2196}","nwnear;":"\u{2927}",
-    "Oacute;":"\u{D3}","oacute;":"\u{F3}","oast;":"\u{229B}","ocir;":"\u{229A}",
-    "Ocirc;":"\u{D4}","ocirc;":"\u{F4}","Ocy;":"\u{41E}","ocy;":"\u{43E}",
-    "odash;":"\u{229D}","Odblac;":"\u{150}","odblac;":"\u{151}","odiv;":"\u{2A38}",
-    "odot;":"\u{2299}","odsold;":"\u{29BC}","OElig;":"\u{152}","oelig;":"\u{153}",
-    "ofcir;":"\u{29BF}","Ofr;":"\u{1D512}","ofr;":"\u{1D52C}","ogon;":"\u{2DB}",
-    "Ograve;":"\u{D2}","ograve;":"\u{F2}","ogt;":"\u{29C1}","ohbar;":"\u{29B5}",
-    "ohm;":"\u{3A9}","oint;":"\u{222E}","olarr;":"\u{21BA}","olcir;":"\u{29BE}",
-    "olcross;":"\u{29BB}","oline;":"\u{203E}","olt;":"\u{29C0}","Omacr;":"\u{14C}",
-    "omacr;":"\u{14D}","Omega;":"\u{3A9}","omega;":"\u{3C9}","Omicron;":"\u{39F}",
-    "omicron;":"\u{3BF}","omid;":"\u{29B6}","ominus;":"\u{2296}","Oopf;":"\u{1D546}",
-    "oopf;":"\u{1D560}","opar;":"\u{29B7}","OpenCurlyDoubleQuote;":"\u{201C}","OpenCurlyQuote;":"\u{2018}",
-    "operp;":"\u{29B9}","oplus;":"\u{2295}","Or;":"\u{2A54}","or;":"\u{2228}",
-    "orarr;":"\u{21BB}","ord;":"\u{2A5D}","order;":"\u{2134}","orderof;":"\u{2134}",
-    "ordf;":"\u{AA}","ordm;":"\u{BA}","origof;":"\u{22B6}","oror;":"\u{2A56}",
-    "orslope;":"\u{2A57}","orv;":"\u{2A5B}","oS;":"\u{24C8}","Oscr;":"\u{1D4AA}",
-    "oscr;":"\u{2134}","Oslash;":"\u{D8}","oslash;":"\u{F8}","osol;":"\u{2298}",
-    "Otilde;":"\u{D5}","otilde;":"\u{F5}","Otimes;":"\u{2A37}","otimes;":"\u{2297}",
-    "otimesas;":"\u{2A36}","Ouml;":"\u{D6}","ouml;":"\u{F6}","ovbar;":"\u{233D}",
-    "OverBar;":"\u{203E}","OverBrace;":"\u{23DE}","OverBracket;":"\u{23B4}","OverParenthesis;":"\u{23DC}",
-    "par;":"\u{2225}","para;":"\u{B6}","parallel;":"\u{2225}","parsim;":"\u{2AF3}",
-    "parsl;":"\u{2AFD}","part;":"\u{2202}","PartialD;":"\u{2202}","Pcy;":"\u{41F}",
-    "pcy;":"\u{43F}","percnt;":"\u{25}","period;":"\u{2E}","permil;":"\u{2030}",
-    "perp;":"\u{22A5}","pertenk;":"\u{2031}","Pfr;":"\u{1D513}","pfr;":"\u{1D52D}",
-    "Phi;":"\u{3A6}","phi;":"\u{3C6}","phiv;":"\u{3D5}","phmmat;":"\u{2133}",
-    "phone;":"\u{260E}","Pi;":"\u{3A0}","pi;":"\u{3C0}","pitchfork;":"\u{22D4}",
-    "piv;":"\u{3D6}","planck;":"\u{210F}","planckh;":"\u{210E}","plankv;":"\u{210F}",
-    "plus;":"\u{2B}","plusacir;":"\u{2A23}","plusb;":"\u{229E}","pluscir;":"\u{2A22}",
-    "plusdo;":"\u{2214}","plusdu;":"\u{2A25}","pluse;":"\u{2A72}","PlusMinus;":"\u{B1}",
-    "plusmn;":"\u{B1}","plussim;":"\u{2A26}","plustwo;":"\u{2A27}","pm;":"\u{B1}",
-    "Poincareplane;":"\u{210C}","pointint;":"\u{2A15}","Popf;":"\u{2119}","popf;":"\u{1D561}",
-    "pound;":"\u{A3}","Pr;":"\u{2ABB}","pr;":"\u{227A}","prap;":"\u{2AB7}",
-    "prcue;":"\u{227C}","prE;":"\u{2AB3}","pre;":"\u{2AAF}","prec;":"\u{227A}",
-    "precapprox;":"\u{2AB7}","preccurlyeq;":"\u{227C}","Precedes;":"\u{227A}","PrecedesEqual;":"\u{2AAF}",
-    "PrecedesSlantEqual;":"\u{227C}","PrecedesTilde;":"\u{227E}","preceq;":"\u{2AAF}","precnapprox;":"\u{2AB9}",
-    "precneqq;":"\u{2AB5}","precnsim;":"\u{22E8}","precsim;":"\u{227E}","Prime;":"\u{2033}",
-    "prime;":"\u{2032}","primes;":"\u{2119}","prnap;":"\u{2AB9}","prnE;":"\u{2AB5}",
-    "prnsim;":"\u{22E8}","prod;":"\u{220F}","Product;":"\u{220F}","profalar;":"\u{232E}",
-    "profline;":"\u{2312}","profsurf;":"\u{2313}","prop;":"\u{221D}","Proportion;":"\u{2237}",
-    "Proportional;":"\u{221D}","propto;":"\u{221D}","prsim;":"\u{227E}","prurel;":"\u{22B0}",
-    "Pscr;":"\u{1D4AB}","pscr;":"\u{1D4C5}","Psi;":"\u{3A8}","psi;":"\u{3C8}",
-    "puncsp;":"\u{2008}","Qfr;":"\u{1D514}","qfr;":"\u{1D52E}","qint;":"\u{2A0C}",
-    "Qopf;":"\u{211A}","qopf;":"\u{1D562}","qprime;":"\u{2057}","Qscr;":"\u{1D4AC}",
-    "qscr;":"\u{1D4C6}","quaternions;":"\u{210D}","quatint;":"\u{2A16}","quest;":"\u{3F}",
-    "questeq;":"\u{225F}","QUOT;":"\u{22}","quot;":"\u{22}","rAarr;":"\u{21DB}",
-    "race;":"\u{223D}\u{331}","Racute;":"\u{154}","racute;":"\u{155}","radic;":"\u{221A}",
-    "raemptyv;":"\u{29B3}","Rang;":"\u{27EB}","rang;":"\u{27E9}","rangd;":"\u{2992}",
-    "range;":"\u{29A5}","rangle;":"\u{27E9}","raquo;":"\u{BB}","Rarr;":"\u{21A0}",
-    "rArr;":"\u{21D2}","rarr;":"\u{2192}","rarrap;":"\u{2975}","rarrb;":"\u{21E5}",
-    "rarrbfs;":"\u{2920}","rarrc;":"\u{2933}","rarrfs;":"\u{291E}","rarrhk;":"\u{21AA}",
-    "rarrlp;":"\u{21AC}","rarrpl;":"\u{2945}","rarrsim;":"\u{2974}","Rarrtl;":"\u{2916}",
-    "rarrtl;":"\u{21A3}","rarrw;":"\u{219D}","rAtail;":"\u{291C}","ratail;":"\u{291A}",
-    "ratio;":"\u{2236}","rationals;":"\u{211A}","RBarr;":"\u{2910}","rBarr;":"\u{290F}",
-    "rbarr;":"\u{290D}","rbbrk;":"\u{2773}","rbrace;":"\u{7D}","rbrack;":"\u{5D}",
-    "rbrke;":"\u{298C}","rbrksld;":"\u{298E}","rbrkslu;":"\u{2990}","Rcaron;":"\u{158}",
-    "rcaron;":"\u{159}","Rcedil;":"\u{156}","rcedil;":"\u{157}","rceil;":"\u{2309}",
-    "rcub;":"\u{7D}","Rcy;":"\u{420}","rcy;":"\u{440}","rdca;":"\u{2937}",
-    "rdldhar;":"\u{2969}","rdquo;":"\u{201D}","rdquor;":"\u{201D}","rdsh;":"\u{21B3}",
-    "Re;":"\u{211C}","real;":"\u{211C}","realine;":"\u{211B}","realpart;":"\u{211C}",
-    "reals;":"\u{211D}","rect;":"\u{25AD}","REG;":"\u{AE}","reg;":"\u{AE}",
-    "ReverseElement;":"\u{220B}","ReverseEquilibrium;":"\u{21CB}","ReverseUpEquilibrium;":"\u{296F}","rfisht;":"\u{297D}",
-    "rfloor;":"\u{230B}","Rfr;":"\u{211C}","rfr;":"\u{1D52F}","rHar;":"\u{2964}",
-    "rhard;":"\u{21C1}","rharu;":"\u{21C0}","rharul;":"\u{296C}","Rho;":"\u{3A1}",
-    "rho;":"\u{3C1}","rhov;":"\u{3F1}","RightAngleBracket;":"\u{27E9}","RightArrow;":"\u{2192}",
-    "Rightarrow;":"\u{21D2}","rightarrow;":"\u{2192}","RightArrowBar;":"\u{21E5}","RightArrowLeftArrow;":"\u{21C4}",
-    "rightarrowtail;":"\u{21A3}","RightCeiling;":"\u{2309}","RightDoubleBracket;":"\u{27E7}","RightDownTeeVector;":"\u{295D}",
-    "RightDownVector;":"\u{21C2}","RightDownVectorBar;":"\u{2955}","RightFloor;":"\u{230B}","rightharpoondown;":"\u{21C1}",
-    "rightharpoonup;":"\u{21C0}","rightleftarrows;":"\u{21C4}","rightleftharpoons;":"\u{21CC}","rightrightarrows;":"\u{21C9}",
-    "rightsquigarrow;":"\u{219D}","RightTee;":"\u{22A2}","RightTeeArrow;":"\u{21A6}","RightTeeVector;":"\u{295B}",
-    "rightthreetimes;":"\u{22CC}","RightTriangle;":"\u{22B3}","RightTriangleBar;":"\u{29D0}","RightTriangleEqual;":"\u{22B5}",
-    "RightUpDownVector;":"\u{294F}","RightUpTeeVector;":"\u{295C}","RightUpVector;":"\u{21BE}","RightUpVectorBar;":"\u{2954}",
-    "RightVector;":"\u{21C0}","RightVectorBar;":"\u{2953}","ring;":"\u{2DA}","risingdotseq;":"\u{2253}",
-    "rlarr;":"\u{21C4}","rlhar;":"\u{21CC}","rlm;":"\u{200F}","rmoust;":"\u{23B1}",
-    "rmoustache;":"\u{23B1}","rnmid;":"\u{2AEE}","roang;":"\u{27ED}","roarr;":"\u{21FE}",
-    "robrk;":"\u{27E7}","ropar;":"\u{2986}","Ropf;":"\u{211D}","ropf;":"\u{1D563}",
-    "roplus;":"\u{2A2E}","rotimes;":"\u{2A35}","RoundImplies;":"\u{2970}","rpar;":"\u{29}",
-    "rpargt;":"\u{2994}","rppolint;":"\u{2A12}","rrarr;":"\u{21C9}","Rrightarrow;":"\u{21DB}",
-    "rsaquo;":"\u{203A}","Rscr;":"\u{211B}","rscr;":"\u{1D4C7}","Rsh;":"\u{21B1}",
-    "rsh;":"\u{21B1}","rsqb;":"\u{5D}","rsquo;":"\u{2019}","rsquor;":"\u{2019}",
-    "rthree;":"\u{22CC}","rtimes;":"\u{22CA}","rtri;":"\u{25B9}","rtrie;":"\u{22B5}",
-    "rtrif;":"\u{25B8}","rtriltri;":"\u{29CE}","RuleDelayed;":"\u{29F4}","ruluhar;":"\u{2968}",
-    "rx;":"\u{211E}","Sacute;":"\u{15A}","sacute;":"\u{15B}","sbquo;":"\u{201A}",
-    "Sc;":"\u{2ABC}","sc;":"\u{227B}","scap;":"\u{2AB8}","Scaron;":"\u{160}",
-    "scaron;":"\u{161}","sccue;":"\u{227D}","scE;":"\u{2AB4}","sce;":"\u{2AB0}",
-    "Scedil;":"\u{15E}","scedil;":"\u{15F}","Scirc;":"\u{15C}","scirc;":"\u{15D}",
-    "scnap;":"\u{2ABA}","scnE;":"\u{2AB6}","scnsim;":"\u{22E9}","scpolint;":"\u{2A13}",
-    "scsim;":"\u{227F}","Scy;":"\u{421}","scy;":"\u{441}","sdot;":"\u{22C5}",
-    "sdotb;":"\u{22A1}","sdote;":"\u{2A66}","searhk;":"\u{2925}","seArr;":"\u{21D8}",
-    "searr;":"\u{2198}","searrow;":"\u{2198}","sect;":"\u{A7}","semi;":"\u{3B}",
-    "seswar;":"\u{2929}","setminus;":"\u{2216}","setmn;":"\u{2216}","sext;":"\u{2736}",
-    "Sfr;":"\u{1D516}","sfr;":"\u{1D530}","sfrown;":"\u{2322}","sharp;":"\u{266F}",
-    "SHCHcy;":"\u{429}","shchcy;":"\u{449}","SHcy;":"\u{428}","shcy;":"\u{448}",
-    "ShortDownArrow;":"\u{2193}","ShortLeftArrow;":"\u{2190}","shortmid;":"\u{2223}","shortparallel;":"\u{2225}",
-    "ShortRightArrow;":"\u{2192}","ShortUpArrow;":"\u{2191}","shy;":"\u{AD}","Sigma;":"\u{3A3}",
-    "sigma;":"\u{3C3}","sigmaf;":"\u{3C2}","sigmav;":"\u{3C2}","sim;":"\u{223C}",
-    "simdot;":"\u{2A6A}","sime;":"\u{2243}","simeq;":"\u{2243}","simg;":"\u{2A9E}",
-    "simgE;":"\u{2AA0}","siml;":"\u{2A9D}","simlE;":"\u{2A9F}","simne;":"\u{2246}",
-    "simplus;":"\u{2A24}","simrarr;":"\u{2972}","slarr;":"\u{2190}","SmallCircle;":"\u{2218}",
-    "smallsetminus;":"\u{2216}","smashp;":"\u{2A33}","smeparsl;":"\u{29E4}","smid;":"\u{2223}",
-    "smile;":"\u{2323}","smt;":"\u{2AAA}","smte;":"\u{2AAC}","smtes;":"\u{2AAC}\u{FE00}",
-    "SOFTcy;":"\u{42C}","softcy;":"\u{44C}","sol;":"\u{2F}","solb;":"\u{29C4}",
-    "solbar;":"\u{233F}","Sopf;":"\u{1D54A}","sopf;":"\u{1D564}","spades;":"\u{2660}",
-    "spadesuit;":"\u{2660}","spar;":"\u{2225}","sqcap;":"\u{2293}","sqcaps;":"\u{2293}\u{FE00}",
-    "sqcup;":"\u{2294}","sqcups;":"\u{2294}\u{FE00}","Sqrt;":"\u{221A}","sqsub;":"\u{228F}",
-    "sqsube;":"\u{2291}","sqsubset;":"\u{228F}","sqsubseteq;":"\u{2291}","sqsup;":"\u{2290}",
-    "sqsupe;":"\u{2292}","sqsupset;":"\u{2290}","sqsupseteq;":"\u{2292}","squ;":"\u{25A1}",
-    "Square;":"\u{25A1}","square;":"\u{25A1}","SquareIntersection;":"\u{2293}","SquareSubset;":"\u{228F}",
-    "SquareSubsetEqual;":"\u{2291}","SquareSuperset;":"\u{2290}","SquareSupersetEqual;":"\u{2292}","SquareUnion;":"\u{2294}",
-    "squarf;":"\u{25AA}","squf;":"\u{25AA}","srarr;":"\u{2192}","Sscr;":"\u{1D4AE}",
-    "sscr;":"\u{1D4C8}","ssetmn;":"\u{2216}","ssmile;":"\u{2323}","sstarf;":"\u{22C6}",
-    "Star;":"\u{22C6}","star;":"\u{2606}","starf;":"\u{2605}","straightepsilon;":"\u{3F5}",
-    "straightphi;":"\u{3D5}","strns;":"\u{AF}","Sub;":"\u{22D0}","sub;":"\u{2282}",
-    "subdot;":"\u{2ABD}","subE;":"\u{2AC5}","sube;":"\u{2286}","subedot;":"\u{2AC3}",
-    "submult;":"\u{2AC1}","subnE;":"\u{2ACB}","subne;":"\u{228A}","subplus;":"\u{2ABF}",
-    "subrarr;":"\u{2979}","Subset;":"\u{22D0}","subset;":"\u{2282}","subseteq;":"\u{2286}",
-    "subseteqq;":"\u{2AC5}","SubsetEqual;":"\u{2286}","subsetneq;":"\u{228A}","subsetneqq;":"\u{2ACB}",
-    "subsim;":"\u{2AC7}","subsub;":"\u{2AD5}","subsup;":"\u{2AD3}","succ;":"\u{227B}",
-    "succapprox;":"\u{2AB8}","succcurlyeq;":"\u{227D}","Succeeds;":"\u{227B}","SucceedsEqual;":"\u{2AB0}",
-    "SucceedsSlantEqual;":"\u{227D}","SucceedsTilde;":"\u{227F}","succeq;":"\u{2AB0}","succnapprox;":"\u{2ABA}",
-    "succneqq;":"\u{2AB6}","succnsim;":"\u{22E9}","succsim;":"\u{227F}","SuchThat;":"\u{220B}",
-    "Sum;":"\u{2211}","sum;":"\u{2211}","sung;":"\u{266A}","Sup;":"\u{22D1}",
-    "sup;":"\u{2283}","sup1;":"\u{B9}","sup2;":"\u{B2}","sup3;":"\u{B3}",
-    "supdot;":"\u{2ABE}","supdsub;":"\u{2AD8}","supE;":"\u{2AC6}","supe;":"\u{2287}",
-    "supedot;":"\u{2AC4}","Superset;":"\u{2283}","SupersetEqual;":"\u{2287}","suphsol;":"\u{27C9}",
-    "suphsub;":"\u{2AD7}","suplarr;":"\u{297B}","supmult;":"\u{2AC2}","supnE;":"\u{2ACC}",
-    "supne;":"\u{228B}","supplus;":"\u{2AC0}","Supset;":"\u{22D1}","supset;":"\u{2283}",
-    "supseteq;":"\u{2287}","supseteqq;":"\u{2AC6}","supsetneq;":"\u{228B}","supsetneqq;":"\u{2ACC}",
-    "supsim;":"\u{2AC8}","supsub;":"\u{2AD4}","supsup;":"\u{2AD6}","swarhk;":"\u{2926}",
-    "swArr;":"\u{21D9}","swarr;":"\u{2199}","swarrow;":"\u{2199}","swnwar;":"\u{292A}",
-    "szlig;":"\u{DF}","Tab;":"\u{9}","target;":"\u{2316}","Tau;":"\u{3A4}",
-    "tau;":"\u{3C4}","tbrk;":"\u{23B4}","Tcaron;":"\u{164}","tcaron;":"\u{165}",
-    "Tcedil;":"\u{162}","tcedil;":"\u{163}","Tcy;":"\u{422}","tcy;":"\u{442}",
-    "tdot;":"\u{20DB}","telrec;":"\u{2315}","Tfr;":"\u{1D517}","tfr;":"\u{1D531}",
-    "there4;":"\u{2234}","Therefore;":"\u{2234}","therefore;":"\u{2234}","Theta;":"\u{398}",
-    "theta;":"\u{3B8}","thetasym;":"\u{3D1}","thetav;":"\u{3D1}","thickapprox;":"\u{2248}",
-    "thicksim;":"\u{223C}",
-
+    // map["fjlig;"] = "\u{66}\u{6A}"
+    map["flat;"] = "\u{266D}"
+    map["fllig;"] = "\u{FB02}"
+    map["fltns;"] = "\u{25B1}"
+    map["fnof;"] = "\u{192}"
+    map["Fopf;"] = "\u{1D53D}"
+    map["fopf;"] = "\u{1D557}"
+    map["ForAll;"] = "\u{2200}"
+    map["forall;"] = "\u{2200}"
+    map["fork;"] = "\u{22D4}"
+    map["forkv;"] = "\u{2AD9}"
+    map["Fouriertrf;"] = "\u{2131}"
+    map["fpartint;"] = "\u{2A0D}"
+    map["frac12;"] = "\u{BD}"
+    map["frac13;"] = "\u{2153}"
+    map["frac14;"] = "\u{BC}"
+    map["frac15;"] = "\u{2155}"
+    map["frac16;"] = "\u{2159}"
+    map["frac18;"] = "\u{215B}"
+    map["frac23;"] = "\u{2154}"
+    map["frac25;"] = "\u{2156}"
+    map["frac34;"] = "\u{BE}"
+    map["frac35;"] = "\u{2157}"
+    map["frac38;"] = "\u{215C}"
+    map["frac45;"] = "\u{2158}"
+    map["frac56;"] = "\u{215A}"
+    map["frac58;"] = "\u{215D}"
+    map["frac78;"] = "\u{215E}"
+    map["frasl;"] = "\u{2044}"
+    map["frown;"] = "\u{2322}"
+    map["Fscr;"] = "\u{2131}"
+    map["fscr;"] = "\u{1D4BB}"
+    map["gacute;"] = "\u{1F5}"
+    map["Gamma;"] = "\u{393}"
+    map["gamma;"] = "\u{3B3}"
+    map["Gammad;"] = "\u{3DC}"
+    map["gammad;"] = "\u{3DD}"
+    map["gap;"] = "\u{2A86}"
+    map["Gbreve;"] = "\u{11E}"
+    map["gbreve;"] = "\u{11F}"
+    map["Gcedil;"] = "\u{122}"
+    map["Gcirc;"] = "\u{11C}"
+    map["gcirc;"] = "\u{11D}"
+    map["Gcy;"] = "\u{413}"
+    map["gcy;"] = "\u{433}"
+    map["Gdot;"] = "\u{120}"
+    map["gdot;"] = "\u{121}"
+    map["gE;"] = "\u{2267}"
+    map["ge;"] = "\u{2265}"
+    map["gEl;"] = "\u{2A8C}"
+    map["gel;"] = "\u{22DB}"
+    map["geq;"] = "\u{2265}"
+    map["geqq;"] = "\u{2267}"
+    map["geqslant;"] = "\u{2A7E}"
+    map["ges;"] = "\u{2A7E}"
+    map["gescc;"] = "\u{2AA9}"
+    map["gesdot;"] = "\u{2A80}"
+    map["gesdoto;"] = "\u{2A82}"
+    map["gesdotol;"] = "\u{2A84}"
+    map["gesl;"] = "\u{22DB}\u{FE00}"
+    map["gesles;"] = "\u{2A94}"
+    map["Gfr;"] = "\u{1D50A}"
+    map["gfr;"] = "\u{1D524}"
+    map["Gg;"] = "\u{22D9}"
+    map["gg;"] = "\u{226B}"
+    map["ggg;"] = "\u{22D9}"
+    map["gimel;"] = "\u{2137}"
+    map["GJcy;"] = "\u{403}"
+    map["gjcy;"] = "\u{453}"
+    map["gl;"] = "\u{2277}"
+    map["gla;"] = "\u{2AA5}"
+    map["glE;"] = "\u{2A92}"
+    map["glj;"] = "\u{2AA4}"
+    map["gnap;"] = "\u{2A8A}"
+    map["gnapprox;"] = "\u{2A8A}"
+    map["gnE;"] = "\u{2269}"
+    map["gne;"] = "\u{2A88}"
+    map["gneq;"] = "\u{2A88}"
+    map["gneqq;"] = "\u{2269}"
+    map["gnsim;"] = "\u{22E7}"
+    map["Gopf;"] = "\u{1D53E}"
+    map["gopf;"] = "\u{1D558}"
+    map["grave;"] = "\u{60}"
+    map["GreaterEqual;"] = "\u{2265}"
+    map["GreaterEqualLess;"] = "\u{22DB}"
+    map["GreaterFullEqual;"] = "\u{2267}"
+    map["GreaterGreater;"] = "\u{2AA2}"
+    map["GreaterLess;"] = "\u{2277}"
+    map["GreaterSlantEqual;"] = "\u{2A7E}"
+    map["GreaterTilde;"] = "\u{2273}"
+    map["Gscr;"] = "\u{1D4A2}"
+    map["gscr;"] = "\u{210A}"
+    map["gsim;"] = "\u{2273}"
+    map["gsime;"] = "\u{2A8E}"
+    map["gsiml;"] = "\u{2A90}"
+    map["GT;"] = "\u{3E}"
+    map["Gt;"] = "\u{226B}"
+    map["gt;"] = "\u{3E}"
+    map["gtcc;"] = "\u{2AA7}"
+    map["gtcir;"] = "\u{2A7A}"
+    map["gtdot;"] = "\u{22D7}"
+    map["gtlPar;"] = "\u{2995}"
+    map["gtquest;"] = "\u{2A7C}"
+    map["gtrapprox;"] = "\u{2A86}"
+    map["gtrarr;"] = "\u{2978}"
+    map["gtrdot;"] = "\u{22D7}"
+    map["gtreqless;"] = "\u{22DB}"
+    map["gtreqqless;"] = "\u{2A8C}"
+    map["gtrless;"] = "\u{2277}"
+    map["gtrsim;"] = "\u{2273}"
+    map["gvertneqq;"] = "\u{2269}\u{FE00}"
+    map["gvnE;"] = "\u{2269}\u{FE00}"
+    map["Hacek;"] = "\u{2C7}"
+    map["hairsp;"] = "\u{200A}"
+    map["half;"] = "\u{BD}"
+    map["hamilt;"] = "\u{210B}"
+    map["HARDcy;"] = "\u{42A}"
+    map["hardcy;"] = "\u{44A}"
+    map["hArr;"] = "\u{21D4}"
+    map["harr;"] = "\u{2194}"
+    map["harrcir;"] = "\u{2948}"
+    map["harrw;"] = "\u{21AD}"
+    map["Hat;"] = "\u{5E}"
+    map["hbar;"] = "\u{210F}"
+    map["Hcirc;"] = "\u{124}"
+    map["hcirc;"] = "\u{125}"
+    map["hearts;"] = "\u{2665}"
+    map["heartsuit;"] = "\u{2665}"
+    map["hellip;"] = "\u{2026}"
+    map["hercon;"] = "\u{22B9}"
+    map["Hfr;"] = "\u{210C}"
+    map["hfr;"] = "\u{1D525}"
+    map["HilbertSpace;"] = "\u{210B}"
+    map["hksearow;"] = "\u{2925}"
+    map["hkswarow;"] = "\u{2926}"
+    map["hoarr;"] = "\u{21FF}"
+    map["homtht;"] = "\u{223B}"
+    map["hookleftarrow;"] = "\u{21A9}"
+    map["hookrightarrow;"] = "\u{21AA}"
+    map["Hopf;"] = "\u{210D}"
+    map["hopf;"] = "\u{1D559}"
+    map["horbar;"] = "\u{2015}"
+    map["HorizontalLine;"] = "\u{2500}"
+    map["Hscr;"] = "\u{210B}"
+    map["hscr;"] = "\u{1D4BD}"
+    map["hslash;"] = "\u{210F}"
+    map["Hstrok;"] = "\u{126}"
+    map["hstrok;"] = "\u{127}"
+    map["HumpDownHump;"] = "\u{224E}"
+    map["HumpEqual;"] = "\u{224F}"
+    map["hybull;"] = "\u{2043}"
+    map["hyphen;"] = "\u{2010}"
+    map["Iacute;"] = "\u{CD}"
+    map["iacute;"] = "\u{ED}"
+    map["ic;"] = "\u{2063}"
+    map["Icirc;"] = "\u{CE}"
+    map["icirc;"] = "\u{EE}"
+    map["Icy;"] = "\u{418}"
+    map["icy;"] = "\u{438}"
+    map["Idot;"] = "\u{130}"
+    map["IEcy;"] = "\u{415}"
+    map["iecy;"] = "\u{435}"
+    map["iexcl;"] = "\u{A1}"
+    map["iff;"] = "\u{21D4}"
+    map["Ifr;"] = "\u{2111}"
+    map["ifr;"] = "\u{1D526}"
+    map["Igrave;"] = "\u{CC}"
+    map["igrave;"] = "\u{EC}"
+    map["ii;"] = "\u{2148}"
+    map["iiiint;"] = "\u{2A0C}"
+    map["iiint;"] = "\u{222D}"
+    map["iinfin;"] = "\u{29DC}"
+    map["iiota;"] = "\u{2129}"
+    map["IJlig;"] = "\u{132}"
+    map["ijlig;"] = "\u{133}"
+    map["Im;"] = "\u{2111}"
+    map["Imacr;"] = "\u{12A}"
+    map["imacr;"] = "\u{12B}"
+    map["image;"] = "\u{2111}"
+    map["ImaginaryI;"] = "\u{2148}"
+    map["imagline;"] = "\u{2110}"
+    map["imagpart;"] = "\u{2111}"
+    map["imath;"] = "\u{131}"
+    map["imof;"] = "\u{22B7}"
+    map["imped;"] = "\u{1B5}"
+    map["Implies;"] = "\u{21D2}"
+    map["in;"] = "\u{2208}"
+    map["incare;"] = "\u{2105}"
+    map["infin;"] = "\u{221E}"
+    map["infintie;"] = "\u{29DD}"
+    map["inodot;"] = "\u{131}"
+    map["Int;"] = "\u{222C}"
+    map["int;"] = "\u{222B}"
+    map["intcal;"] = "\u{22BA}"
+    map["integers;"] = "\u{2124}"
+    map["Integral;"] = "\u{222B}"
+    map["intercal;"] = "\u{22BA}"
+    map["Intersection;"] = "\u{22C2}"
+    map["intlarhk;"] = "\u{2A17}"
+    map["intprod;"] = "\u{2A3C}"
+    map["InvisibleComma;"] = "\u{2063}"
+    map["InvisibleTimes;"] = "\u{2062}"
+    map["IOcy;"] = "\u{401}"
+    map["iocy;"] = "\u{451}"
+    map["Iogon;"] = "\u{12E}"
+    map["iogon;"] = "\u{12F}"
+    map["Iopf;"] = "\u{1D540}"
+    map["iopf;"] = "\u{1D55A}"
+    map["Iota;"] = "\u{399}"
+    map["iota;"] = "\u{3B9}"
+    map["iprod;"] = "\u{2A3C}"
+    map["iquest;"] = "\u{BF}"
+    map["Iscr;"] = "\u{2110}"
+    map["iscr;"] = "\u{1D4BE}"
+    map["isin;"] = "\u{2208}"
+    map["isindot;"] = "\u{22F5}"
+    map["isinE;"] = "\u{22F9}"
+    map["isins;"] = "\u{22F4}"
+    map["isinsv;"] = "\u{22F3}"
+    map["isinv;"] = "\u{2208}"
+    map["it;"] = "\u{2062}"
+    map["Itilde;"] = "\u{128}"
+    map["itilde;"] = "\u{129}"
+    map["Iukcy;"] = "\u{406}"
+    map["iukcy;"] = "\u{456}"
+    map["Iuml;"] = "\u{CF}"
+    map["iuml;"] = "\u{EF}"
+    map["Jcirc;"] = "\u{134}"
+    map["jcirc;"] = "\u{135}"
+    map["Jcy;"] = "\u{419}"
+    map["jcy;"] = "\u{439}"
+    map["Jfr;"] = "\u{1D50D}"
+    map["jfr;"] = "\u{1D527}"
+    map["jmath;"] = "\u{237}"
+    map["Jopf;"] = "\u{1D541}"
+    map["jopf;"] = "\u{1D55B}"
+    map["Jscr;"] = "\u{1D4A5}"
+    map["jscr;"] = "\u{1D4BF}"
+    map["Jsercy;"] = "\u{408}"
+    map["jsercy;"] = "\u{458}"
+    map["Jukcy;"] = "\u{404}"
+    map["jukcy;"] = "\u{454}"
+    map["Kappa;"] = "\u{39A}"
+    map["kappa;"] = "\u{3BA}"
+    map["kappav;"] = "\u{3F0}"
+    map["Kcedil;"] = "\u{136}"
+    map["kcedil;"] = "\u{137}"
+    map["Kcy;"] = "\u{41A}"
+    map["kcy;"] = "\u{43A}"
+    map["Kfr;"] = "\u{1D50E}"
+    map["kfr;"] = "\u{1D528}"
+    map["kgreen;"] = "\u{138}"
+    map["KHcy;"] = "\u{425}"
+    map["khcy;"] = "\u{445}"
+    map["KJcy;"] = "\u{40C}"
+    map["kjcy;"] = "\u{45C}"
+    map["Kopf;"] = "\u{1D542}"
+    map["kopf;"] = "\u{1D55C}"
+    map["Kscr;"] = "\u{1D4A6}"
+    map["kscr;"] = "\u{1D4C0}"
+    map["lAarr;"] = "\u{21DA}"
+    map["Lacute;"] = "\u{139}"
+    map["lacute;"] = "\u{13A}"
+    map["laemptyv;"] = "\u{29B4}"
+    map["lagran;"] = "\u{2112}"
+    map["Lambda;"] = "\u{39B}"
+    map["lambda;"] = "\u{3BB}"
+    map["Lang;"] = "\u{27EA}"
+    map["lang;"] = "\u{27E8}"
+    map["langd;"] = "\u{2991}"
+    map["langle;"] = "\u{27E8}"
+    map["lap;"] = "\u{2A85}"
+    map["Laplacetrf;"] = "\u{2112}"
+    map["laquo;"] = "\u{AB}"
+    map["Larr;"] = "\u{219E}"
+    map["lArr;"] = "\u{21D0}"
+    map["larr;"] = "\u{2190}"
+    map["larrb;"] = "\u{21E4}"
+    map["larrbfs;"] = "\u{291F}"
+    map["larrfs;"] = "\u{291D}"
+    map["larrhk;"] = "\u{21A9}"
+    map["larrlp;"] = "\u{21AB}"
+    map["larrpl;"] = "\u{2939}"
+    map["larrsim;"] = "\u{2973}"
+    map["larrtl;"] = "\u{21A2}"
+    map["lat;"] = "\u{2AAB}"
+    map["lAtail;"] = "\u{291B}"
+    map["latail;"] = "\u{2919}"
+    map["late;"] = "\u{2AAD}"
+    map["lates;"] = "\u{2AAD}\u{FE00}"
+    map["lBarr;"] = "\u{290E}"
+    map["lbarr;"] = "\u{290C}"
+    map["lbbrk;"] = "\u{2772}"
+    map["lbrace;"] = "\u{7B}"
+    map["lbrack;"] = "\u{5B}"
+    map["lbrke;"] = "\u{298B}"
+    map["lbrksld;"] = "\u{298F}"
+    map["lbrkslu;"] = "\u{298D}"
+    map["Lcaron;"] = "\u{13D}"
+    map["lcaron;"] = "\u{13E}"
+    map["Lcedil;"] = "\u{13B}"
+    map["lcedil;"] = "\u{13C}"
+    map["lceil;"] = "\u{2308}"
+    map["lcub;"] = "\u{7B}"
+    map["Lcy;"] = "\u{41B}"
+    map["lcy;"] = "\u{43B}"
+    map["ldca;"] = "\u{2936}"
+    map["ldquo;"] = "\u{201C}"
+    map["ldquor;"] = "\u{201E}"
+    map["ldrdhar;"] = "\u{2967}"
+    map["ldrushar;"] = "\u{294B}"
+    map["ldsh;"] = "\u{21B2}"
+    map["lE;"] = "\u{2266}"
+    map["le;"] = "\u{2264}"
+    map["LeftAngleBracket;"] = "\u{27E8}"
+    map["LeftArrow;"] = "\u{2190}"
+    map["Leftarrow;"] = "\u{21D0}"
+    map["leftarrow;"] = "\u{2190}"
+    map["LeftArrowBar;"] = "\u{21E4}"
+    map["LeftArrowRightArrow;"] = "\u{21C6}"
+    map["leftarrowtail;"] = "\u{21A2}"
+    map["LeftCeiling;"] = "\u{2308}"
+    map["LeftDoubleBracket;"] = "\u{27E6}"
+    map["LeftDownTeeVector;"] = "\u{2961}"
+    map["LeftDownVector;"] = "\u{21C3}"
+    map["LeftDownVectorBar;"] = "\u{2959}"
+    map["LeftFloor;"] = "\u{230A}"
+    map["leftharpoondown;"] = "\u{21BD}"
+    map["leftharpoonup;"] = "\u{21BC}"
+    map["leftleftarrows;"] = "\u{21C7}"
+    map["LeftRightArrow;"] = "\u{2194}"
+    map["Leftrightarrow;"] = "\u{21D4}"
+    map["leftrightarrow;"] = "\u{2194}"
+    map["leftrightarrows;"] = "\u{21C6}"
+    map["leftrightharpoons;"] = "\u{21CB}"
+    map["leftrightsquigarrow;"] = "\u{21AD}"
+    map["LeftRightVector;"] = "\u{294E}"
+    map["LeftTee;"] = "\u{22A3}"
+    map["LeftTeeArrow;"] = "\u{21A4}"
+    map["LeftTeeVector;"] = "\u{295A}"
+    map["leftthreetimes;"] = "\u{22CB}"
+    map["LeftTriangle;"] = "\u{22B2}"
+    map["LeftTriangleBar;"] = "\u{29CF}"
+    map["LeftTriangleEqual;"] = "\u{22B4}"
+    map["LeftUpDownVector;"] = "\u{2951}"
+    map["LeftUpTeeVector;"] = "\u{2960}"
+    map["LeftUpVector;"] = "\u{21BF}"
+    map["LeftUpVectorBar;"] = "\u{2958}"
+    map["LeftVector;"] = "\u{21BC}"
+    map["LeftVectorBar;"] = "\u{2952}"
+    map["lEg;"] = "\u{2A8B}"
+    map["leg;"] = "\u{22DA}"
+    map["leq;"] = "\u{2264}"
+    map["leqq;"] = "\u{2266}"
+    map["leqslant;"] = "\u{2A7D}"
+    map["les;"] = "\u{2A7D}"
+    map["lescc;"] = "\u{2AA8}"
+    map["lesdot;"] = "\u{2A7F}"
+    map["lesdoto;"] = "\u{2A81}"
+    map["lesdotor;"] = "\u{2A83}"
+    map["lesg;"] = "\u{22DA}\u{FE00}"
+    map["lesges;"] = "\u{2A93}"
+    map["lessapprox;"] = "\u{2A85}"
+    map["lessdot;"] = "\u{22D6}"
+    map["lesseqgtr;"] = "\u{22DA}"
+    map["lesseqqgtr;"] = "\u{2A8B}"
+    map["LessEqualGreater;"] = "\u{22DA}"
+    map["LessFullEqual;"] = "\u{2266}"
+    map["LessGreater;"] = "\u{2276}"
+    map["lessgtr;"] = "\u{2276}"
+    map["LessLess;"] = "\u{2AA1}"
+    map["lesssim;"] = "\u{2272}"
+    map["LessSlantEqual;"] = "\u{2A7D}"
+    map["LessTilde;"] = "\u{2272}"
+    map["lfisht;"] = "\u{297C}"
+    map["lfloor;"] = "\u{230A}"
+    map["Lfr;"] = "\u{1D50F}"
+    map["lfr;"] = "\u{1D529}"
+    map["lg;"] = "\u{2276}"
+    map["lgE;"] = "\u{2A91}"
+    map["lHar;"] = "\u{2962}"
+    map["lhard;"] = "\u{21BD}"
+    map["lharu;"] = "\u{21BC}"
+    map["lharul;"] = "\u{296A}"
+    map["lhblk;"] = "\u{2584}"
+    map["LJcy;"] = "\u{409}"
+    map["ljcy;"] = "\u{459}"
+    map["Ll;"] = "\u{22D8}"
+    map["ll;"] = "\u{226A}"
+    map["llarr;"] = "\u{21C7}"
+    map["llcorner;"] = "\u{231E}"
+    map["Lleftarrow;"] = "\u{21DA}"
+    map["llhard;"] = "\u{296B}"
+    map["lltri;"] = "\u{25FA}"
+    map["Lmidot;"] = "\u{13F}"
+    map["lmidot;"] = "\u{140}"
+    map["lmoust;"] = "\u{23B0}"
+    map["lmoustache;"] = "\u{23B0}"
+    map["lnap;"] = "\u{2A89}"
+    map["lnapprox;"] = "\u{2A89}"
+    map["lnE;"] = "\u{2268}"
+    map["lne;"] = "\u{2A87}"
+    map["lneq;"] = "\u{2A87}"
+    map["lneqq;"] = "\u{2268}"
+    map["lnsim;"] = "\u{22E6}"
+    map["loang;"] = "\u{27EC}"
+    map["loarr;"] = "\u{21FD}"
+    map["lobrk;"] = "\u{27E6}"
+    map["LongLeftArrow;"] = "\u{27F5}"
+    map["Longleftarrow;"] = "\u{27F8}"
+    map["longleftarrow;"] = "\u{27F5}"
+    map["LongLeftRightArrow;"] = "\u{27F7}"
+    map["Longleftrightarrow;"] = "\u{27FA}"
+    map["longleftrightarrow;"] = "\u{27F7}"
+    map["longmapsto;"] = "\u{27FC}"
+    map["LongRightArrow;"] = "\u{27F6}"
+    map["Longrightarrow;"] = "\u{27F9}"
+    map["longrightarrow;"] = "\u{27F6}"
+    map["looparrowleft;"] = "\u{21AB}"
+    map["looparrowright;"] = "\u{21AC}"
+    map["lopar;"] = "\u{2985}"
+    map["Lopf;"] = "\u{1D543}"
+    map["lopf;"] = "\u{1D55D}"
+    map["loplus;"] = "\u{2A2D}"
+    map["lotimes;"] = "\u{2A34}"
+    map["lowast;"] = "\u{2217}"
+    map["lowbar;"] = "\u{5F}"
+    map["LowerLeftArrow;"] = "\u{2199}"
+    map["LowerRightArrow;"] = "\u{2198}"
+    map["loz;"] = "\u{25CA}"
+    map["lozenge;"] = "\u{25CA}"
+    map["lozf;"] = "\u{29EB}"
+    map["lpar;"] = "\u{28}"
+    map["lparlt;"] = "\u{2993}"
+    map["lrarr;"] = "\u{21C6}"
+    map["lrcorner;"] = "\u{231F}"
+    map["lrhar;"] = "\u{21CB}"
+    map["lrhard;"] = "\u{296D}"
+    map["lrm;"] = "\u{200E}"
+    map["lrtri;"] = "\u{22BF}"
+    map["lsaquo;"] = "\u{2039}"
+    map["Lscr;"] = "\u{2112}"
+    map["lscr;"] = "\u{1D4C1}"
+    map["Lsh;"] = "\u{21B0}"
+    map["lsh;"] = "\u{21B0}"
+    map["lsim;"] = "\u{2272}"
+    map["lsime;"] = "\u{2A8D}"
+    map["lsimg;"] = "\u{2A8F}"
+    map["lsqb;"] = "\u{5B}"
+    map["lsquo;"] = "\u{2018}"
+    map["lsquor;"] = "\u{201A}"
+    map["Lstrok;"] = "\u{141}"
+    map["lstrok;"] = "\u{142}"
+    map["LT;"] = "\u{3C}"
+    map["Lt;"] = "\u{226A}"
+    map["lt;"] = "\u{3C}"
+    map["ltcc;"] = "\u{2AA6}"
+    map["ltcir;"] = "\u{2A79}"
+    map["ltdot;"] = "\u{22D6}"
+    map["lthree;"] = "\u{22CB}"
+    map["ltimes;"] = "\u{22C9}"
+    map["ltlarr;"] = "\u{2976}"
+    map["ltquest;"] = "\u{2A7B}"
+    map["ltri;"] = "\u{25C3}"
+    map["ltrie;"] = "\u{22B4}"
+    map["ltrif;"] = "\u{25C2}"
+    map["ltrPar;"] = "\u{2996}"
+    map["lurdshar;"] = "\u{294A}"
+    map["luruhar;"] = "\u{2966}"
+    map["lvertneqq;"] = "\u{2268}\u{FE00}"
+    map["lvnE;"] = "\u{2268}\u{FE00}"
+    map["macr;"] = "\u{AF}"
+    map["male;"] = "\u{2642}"
+    map["malt;"] = "\u{2720}"
+    map["maltese;"] = "\u{2720}"
+    map["Map;"] = "\u{2905}"
+    map["map;"] = "\u{21A6}"
+    map["mapsto;"] = "\u{21A6}"
+    map["mapstodown;"] = "\u{21A7}"
+    map["mapstoleft;"] = "\u{21A4}"
+    map["mapstoup;"] = "\u{21A5}"
+    map["marker;"] = "\u{25AE}"
+    map["mcomma;"] = "\u{2A29}"
+    map["Mcy;"] = "\u{41C}"
+    map["mcy;"] = "\u{43C}"
+    map["mdash;"] = "\u{2014}"
+    map["mDDot;"] = "\u{223A}"
+    map["measuredangle;"] = "\u{2221}"
+    map["MediumSpace;"] = "\u{205F}"
+    map["Mellintrf;"] = "\u{2133}"
+    map["Mfr;"] = "\u{1D510}"
+    map["mfr;"] = "\u{1D52A}"
+    map["mho;"] = "\u{2127}"
+    map["micro;"] = "\u{B5}"
+    map["mid;"] = "\u{2223}"
+    map["midast;"] = "\u{2A}"
+    map["midcir;"] = "\u{2AF0}"
+    map["middot;"] = "\u{B7}"
+    map["minus;"] = "\u{2212}"
+    map["minusb;"] = "\u{229F}"
+    map["minusd;"] = "\u{2238}"
+    map["minusdu;"] = "\u{2A2A}"
+    map["MinusPlus;"] = "\u{2213}"
+    map["mlcp;"] = "\u{2ADB}"
+    map["mldr;"] = "\u{2026}"
+    map["mnplus;"] = "\u{2213}"
+    map["models;"] = "\u{22A7}"
+    map["Mopf;"] = "\u{1D544}"
+    map["mopf;"] = "\u{1D55E}"
+    map["mp;"] = "\u{2213}"
+    map["Mscr;"] = "\u{2133}"
+    map["mscr;"] = "\u{1D4C2}"
+    map["mstpos;"] = "\u{223E}"
+    map["Mu;"] = "\u{39C}"
+    map["mu;"] = "\u{3BC}"
+    map["multimap;"] = "\u{22B8}"
+    map["mumap;"] = "\u{22B8}"
+    map["nabla;"] = "\u{2207}"
+    map["Nacute;"] = "\u{143}"
+    map["nacute;"] = "\u{144}"
+    map["nang;"] = "\u{2220}\u{20D2}"
+    map["nap;"] = "\u{2249}"
+    map["napE;"] = "\u{2A70}\u{338}"
+    map["napid;"] = "\u{224B}\u{338}"
+    map["napos;"] = "\u{149}"
+    map["napprox;"] = "\u{2249}"
+    map["natur;"] = "\u{266E}"
+    map["natural;"] = "\u{266E}"
+    map["naturals;"] = "\u{2115}"
+    map["nbsp;"] = "\u{A0}"
+    map["nbump;"] = "\u{224E}\u{338}"
+    map["nbumpe;"] = "\u{224F}\u{338}"
+    map["ncap;"] = "\u{2A43}"
+    map["Ncaron;"] = "\u{147}"
+    map["ncaron;"] = "\u{148}"
+    map["Ncedil;"] = "\u{145}"
+    map["ncedil;"] = "\u{146}"
+    map["ncong;"] = "\u{2247}"
+    map["ncongdot;"] = "\u{2A6D}\u{338}"
+    map["ncup;"] = "\u{2A42}"
+    map["Ncy;"] = "\u{41D}"
+    map["ncy;"] = "\u{43D}"
+    map["ndash;"] = "\u{2013}"
+    map["ne;"] = "\u{2260}"
+    map["nearhk;"] = "\u{2924}"
+    map["neArr;"] = "\u{21D7}"
+    map["nearr;"] = "\u{2197}"
+    map["nearrow;"] = "\u{2197}"
+    map["nedot;"] = "\u{2250}\u{338}"
+    map["NegativeMediumSpace;"] = "\u{200B}"
+    map["NegativeThickSpace;"] = "\u{200B}"
+    map["NegativeThinSpace;"] = "\u{200B}"
+    map["NegativeVeryThinSpace;"] = "\u{200B}"
+    map["nequiv;"] = "\u{2262}"
+    map["nesear;"] = "\u{2928}"
+    map["nesim;"] = "\u{2242}\u{338}"
+    map["NestedGreaterGreater;"] = "\u{226B}"
+    map["NestedLessLess;"] = "\u{226A}"
+    map["NewLine;"] = "\u{A}"
+    map["nexist;"] = "\u{2204}"
+    map["nexists;"] = "\u{2204}"
+    map["Nfr;"] = "\u{1D511}"
+    map["nfr;"] = "\u{1D52B}"
+    map["ngE;"] = "\u{2267}\u{338}"
+    map["nge;"] = "\u{2271}"
+    map["ngeq;"] = "\u{2271}"
+    map["ngeqq;"] = "\u{2267}\u{338}"
+    map["ngeqslant;"] = "\u{2A7E}\u{338}"
+    map["nges;"] = "\u{2A7E}\u{338}"
+    map["nGg;"] = "\u{22D9}\u{338}"
+    map["ngsim;"] = "\u{2275}"
+    map["nGt;"] = "\u{226B}\u{20D2}"
+    map["ngt;"] = "\u{226F}"
+    map["ngtr;"] = "\u{226F}"
+    map["nGtv;"] = "\u{226B}\u{338}"
+    map["nhArr;"] = "\u{21CE}"
+    map["nharr;"] = "\u{21AE}"
+    map["nhpar;"] = "\u{2AF2}"
+    map["ni;"] = "\u{220B}"
+    map["nis;"] = "\u{22FC}"
+    map["nisd;"] = "\u{22FA}"
+    map["niv;"] = "\u{220B}"
+    map["NJcy;"] = "\u{40A}"
+    map["njcy;"] = "\u{45A}"
+    map["nlArr;"] = "\u{21CD}"
+    map["nlarr;"] = "\u{219A}"
+    map["nldr;"] = "\u{2025}"
+    map["nlE;"] = "\u{2266}\u{338}"
+    map["nle;"] = "\u{2270}"
+    map["nLeftarrow;"] = "\u{21CD}"
+    map["nleftarrow;"] = "\u{219A}"
+    map["nLeftrightarrow;"] = "\u{21CE}"
+    map["nleftrightarrow;"] = "\u{21AE}"
+    map["nleq;"] = "\u{2270}"
+    map["nleqq;"] = "\u{2266}\u{338}"
+    map["nleqslant;"] = "\u{2A7D}\u{338}"
+    map["nles;"] = "\u{2A7D}\u{338}"
+    map["nless;"] = "\u{226E}"
+    map["nLl;"] = "\u{22D8}\u{338}"
+    map["nlsim;"] = "\u{2274}"
+    map["nLt;"] = "\u{226A}\u{20D2}"
+    map["nlt;"] = "\u{226E}"
+    map["nltri;"] = "\u{22EA}"
+    map["nltrie;"] = "\u{22EC}"
+    map["nLtv;"] = "\u{226A}\u{338}"
+    map["nmid;"] = "\u{2224}"
+    map["NoBreak;"] = "\u{2060}"
+    map["NonBreakingSpace;"] = "\u{A0}"
+    map["Nopf;"] = "\u{2115}"
+    map["nopf;"] = "\u{1D55F}"
+    map["Not;"] = "\u{2AEC}"
+    map["not;"] = "\u{AC}"
+    map["NotCongruent;"] = "\u{2262}"
+    map["NotCupCap;"] = "\u{226D}"
+    map["NotDoubleVerticalBar;"] = "\u{2226}"
+    map["NotElement;"] = "\u{2209}"
+    map["NotEqual;"] = "\u{2260}"
+    map["NotEqualTilde;"] = "\u{2242}\u{338}"
+    map["NotExists;"] = "\u{2204}"
+    map["NotGreater;"] = "\u{226F}"
+    map["NotGreaterEqual;"] = "\u{2271}"
+    map["NotGreaterFullEqual;"] = "\u{2267}\u{338}"
+    map["NotGreaterGreater;"] = "\u{226B}\u{338}"
+    map["NotGreaterLess;"] = "\u{2279}"
+    map["NotGreaterSlantEqual;"] = "\u{2A7E}\u{338}"
+    map["NotGreaterTilde;"] = "\u{2275}"
+    map["NotHumpDownHump;"] = "\u{224E}\u{338}"
+    map["NotHumpEqual;"] = "\u{224F}\u{338}"
+    map["notin;"] = "\u{2209}"
+    map["notindot;"] = "\u{22F5}\u{338}"
+    map["notinE;"] = "\u{22F9}\u{338}"
+    map["notinva;"] = "\u{2209}"
+    map["notinvb;"] = "\u{22F7}"
+    map["notinvc;"] = "\u{22F6}"
+    map["NotLeftTriangle;"] = "\u{22EA}"
+    map["NotLeftTriangleBar;"] = "\u{29CF}\u{338}"
+    map["NotLeftTriangleEqual;"] = "\u{22EC}"
+    map["NotLess;"] = "\u{226E}"
+    map["NotLessEqual;"] = "\u{2270}"
+    map["NotLessGreater;"] = "\u{2278}"
+    map["NotLessLess;"] = "\u{226A}\u{338}"
+    map["NotLessSlantEqual;"] = "\u{2A7D}\u{338}"
+    map["NotLessTilde;"] = "\u{2274}"
+    map["NotNestedGreaterGreater;"] = "\u{2AA2}\u{338}"
+    map["NotNestedLessLess;"] = "\u{2AA1}\u{338}"
+    map["notni;"] = "\u{220C}"
+    map["notniva;"] = "\u{220C}"
+    map["notnivb;"] = "\u{22FE}"
+    map["notnivc;"] = "\u{22FD}"
+    map["NotPrecedes;"] = "\u{2280}"
+    map["NotPrecedesEqual;"] = "\u{2AAF}\u{338}"
+    map["NotPrecedesSlantEqual;"] = "\u{22E0}"
+    map["NotReverseElement;"] = "\u{220C}"
+    map["NotRightTriangle;"] = "\u{22EB}"
+    map["NotRightTriangleBar;"] = "\u{29D0}\u{338}"
+    map["NotRightTriangleEqual;"] = "\u{22ED}"
+    map["NotSquareSubset;"] = "\u{228F}\u{338}"
+    map["NotSquareSubsetEqual;"] = "\u{22E2}"
+    map["NotSquareSuperset;"] = "\u{2290}\u{338}"
+    map["NotSquareSupersetEqual;"] = "\u{22E3}"
+    map["NotSubset;"] = "\u{2282}\u{20D2}"
+    map["NotSubsetEqual;"] = "\u{2288}"
+    map["NotSucceeds;"] = "\u{2281}"
+    map["NotSucceedsEqual;"] = "\u{2AB0}\u{338}"
+    map["NotSucceedsSlantEqual;"] = "\u{22E1}"
+    map["NotSucceedsTilde;"] = "\u{227F}\u{338}"
+    map["NotSuperset;"] = "\u{2283}\u{20D2}"
+    map["NotSupersetEqual;"] = "\u{2289}"
+    map["NotTilde;"] = "\u{2241}"
+    map["NotTildeEqual;"] = "\u{2244}"
+    map["NotTildeFullEqual;"] = "\u{2247}"
+    map["NotTildeTilde;"] = "\u{2249}"
+    map["NotVerticalBar;"] = "\u{2224}"
+    map["npar;"] = "\u{2226}"
+    map["nparallel;"] = "\u{2226}"
+    map["nparsl;"] = "\u{2AFD}\u{20E5}"
+    map["npart;"] = "\u{2202}\u{338}"
+    map["npolint;"] = "\u{2A14}"
+    map["npr;"] = "\u{2280}"
+    map["nprcue;"] = "\u{22E0}"
+    map["npre;"] = "\u{2AAF}\u{338}"
+    map["nprec;"] = "\u{2280}"
+    map["npreceq;"] = "\u{2AAF}\u{338}"
+    map["nrArr;"] = "\u{21CF}"
+    map["nrarr;"] = "\u{219B}"
+    map["nrarrc;"] = "\u{2933}\u{338}"
+    map["nrarrw;"] = "\u{219D}\u{338}"
+    map["nRightarrow;"] = "\u{21CF}"
+    map["nrightarrow;"] = "\u{219B}"
+    map["nrtri;"] = "\u{22EB}"
+    map["nrtrie;"] = "\u{22ED}"
+    map["nsc;"] = "\u{2281}"
+    map["nsccue;"] = "\u{22E1}"
+    map["nsce;"] = "\u{2AB0}\u{338}"
+    map["Nscr;"] = "\u{1D4A9}"
+    map["nscr;"] = "\u{1D4C3}"
+    map["nshortmid;"] = "\u{2224}"
+    map["nshortparallel;"] = "\u{2226}"
+    map["nsim;"] = "\u{2241}"
+    map["nsime;"] = "\u{2244}"
+    map["nsimeq;"] = "\u{2244}"
+    map["nsmid;"] = "\u{2224}"
+    map["nspar;"] = "\u{2226}"
+    map["nsqsube;"] = "\u{22E2}"
+    map["nsqsupe;"] = "\u{22E3}"
+    map["nsub;"] = "\u{2284}"
+    map["nsubE;"] = "\u{2AC5}\u{338}"
+    map["nsube;"] = "\u{2288}"
+    map["nsubset;"] = "\u{2282}\u{20D2}"
+    map["nsubseteq;"] = "\u{2288}"
+    map["nsubseteqq;"] = "\u{2AC5}\u{338}"
+    map["nsucc;"] = "\u{2281}"
+    map["nsucceq;"] = "\u{2AB0}\u{338}"
+    map["nsup;"] = "\u{2285}"
+    map["nsupE;"] = "\u{2AC6}\u{338}"
+    map["nsupe;"] = "\u{2289}"
+    map["nsupset;"] = "\u{2283}\u{20D2}"
+    map["nsupseteq;"] = "\u{2289}"
+    map["nsupseteqq;"] = "\u{2AC6}\u{338}"
+    map["ntgl;"] = "\u{2279}"
+    map["Ntilde;"] = "\u{D1}"
+    map["ntilde;"] = "\u{F1}"
+    map["ntlg;"] = "\u{2278}"
+    map["ntriangleleft;"] = "\u{22EA}"
+    map["ntrianglelefteq;"] = "\u{22EC}"
+    map["ntriangleright;"] = "\u{22EB}"
+    map["ntrianglerighteq;"] = "\u{22ED}"
+    map["Nu;"] = "\u{39D}"
+    map["nu;"] = "\u{3BD}"
+    map["num;"] = "\u{23}"
+    map["numero;"] = "\u{2116}"
+    map["numsp;"] = "\u{2007}"
+    map["nvap;"] = "\u{224D}\u{20D2}"
+    map["nVDash;"] = "\u{22AF}"
+    map["nVdash;"] = "\u{22AE}"
+    map["nvDash;"] = "\u{22AD}"
+    map["nvdash;"] = "\u{22AC}"
+    map["nvge;"] = "\u{2265}\u{20D2}"
+    map["nvgt;"] = "\u{3E}\u{20D2}"
+    map["nvHarr;"] = "\u{2904}"
+    map["nvinfin;"] = "\u{29DE}"
+    map["nvlArr;"] = "\u{2902}"
+    map["nvle;"] = "\u{2264}\u{20D2}"
+    map["nvlt;"] = "\u{3C}\u{20D2}"
+    map["nvltrie;"] = "\u{22B4}\u{20D2}"
+    map["nvrArr;"] = "\u{2903}"
+    map["nvrtrie;"] = "\u{22B5}\u{20D2}"
+    map["nvsim;"] = "\u{223C}\u{20D2}"
+    map["nwarhk;"] = "\u{2923}"
+    map["nwArr;"] = "\u{21D6}"
+    map["nwarr;"] = "\u{2196}"
+    map["nwarrow;"] = "\u{2196}"
+    map["nwnear;"] = "\u{2927}"
+    map["Oacute;"] = "\u{D3}"
+    map["oacute;"] = "\u{F3}"
+    map["oast;"] = "\u{229B}"
+    map["ocir;"] = "\u{229A}"
+    map["Ocirc;"] = "\u{D4}"
+    map["ocirc;"] = "\u{F4}"
+    map["Ocy;"] = "\u{41E}"
+    map["ocy;"] = "\u{43E}"
+    map["odash;"] = "\u{229D}"
+    map["Odblac;"] = "\u{150}"
+    map["odblac;"] = "\u{151}"
+    map["odiv;"] = "\u{2A38}"
+    map["odot;"] = "\u{2299}"
+    map["odsold;"] = "\u{29BC}"
+    map["OElig;"] = "\u{152}"
+    map["oelig;"] = "\u{153}"
+    map["ofcir;"] = "\u{29BF}"
+    map["Ofr;"] = "\u{1D512}"
+    map["ofr;"] = "\u{1D52C}"
+    map["ogon;"] = "\u{2DB}"
+    map["Ograve;"] = "\u{D2}"
+    map["ograve;"] = "\u{F2}"
+    map["ogt;"] = "\u{29C1}"
+    map["ohbar;"] = "\u{29B5}"
+    map["ohm;"] = "\u{3A9}"
+    map["oint;"] = "\u{222E}"
+    map["olarr;"] = "\u{21BA}"
+    map["olcir;"] = "\u{29BE}"
+    map["olcross;"] = "\u{29BB}"
+    map["oline;"] = "\u{203E}"
+    map["olt;"] = "\u{29C0}"
+    map["Omacr;"] = "\u{14C}"
+    map["omacr;"] = "\u{14D}"
+    map["Omega;"] = "\u{3A9}"
+    map["omega;"] = "\u{3C9}"
+    map["Omicron;"] = "\u{39F}"
+    map["omicron;"] = "\u{3BF}"
+    map["omid;"] = "\u{29B6}"
+    map["ominus;"] = "\u{2296}"
+    map["Oopf;"] = "\u{1D546}"
+    map["oopf;"] = "\u{1D560}"
+    map["opar;"] = "\u{29B7}"
+    map["OpenCurlyDoubleQuote;"] = "\u{201C}"
+    map["OpenCurlyQuote;"] = "\u{2018}"
+    map["operp;"] = "\u{29B9}"
+    map["oplus;"] = "\u{2295}"
+    map["Or;"] = "\u{2A54}"
+    map["or;"] = "\u{2228}"
+    map["orarr;"] = "\u{21BB}"
+    map["ord;"] = "\u{2A5D}"
+    map["order;"] = "\u{2134}"
+    map["orderof;"] = "\u{2134}"
+    map["ordf;"] = "\u{AA}"
+    map["ordm;"] = "\u{BA}"
+    map["origof;"] = "\u{22B6}"
+    map["oror;"] = "\u{2A56}"
+    map["orslope;"] = "\u{2A57}"
+    map["orv;"] = "\u{2A5B}"
+    map["oS;"] = "\u{24C8}"
+    map["Oscr;"] = "\u{1D4AA}"
+    map["oscr;"] = "\u{2134}"
+    map["Oslash;"] = "\u{D8}"
+    map["oslash;"] = "\u{F8}"
+    map["osol;"] = "\u{2298}"
+    map["Otilde;"] = "\u{D5}"
+    map["otilde;"] = "\u{F5}"
+    map["Otimes;"] = "\u{2A37}"
+    map["otimes;"] = "\u{2297}"
+    map["otimesas;"] = "\u{2A36}"
+    map["Ouml;"] = "\u{D6}"
+    map["ouml;"] = "\u{F6}"
+    map["ovbar;"] = "\u{233D}"
+    map["OverBar;"] = "\u{203E}"
+    map["OverBrace;"] = "\u{23DE}"
+    map["OverBracket;"] = "\u{23B4}"
+    map["OverParenthesis;"] = "\u{23DC}"
+    map["par;"] = "\u{2225}"
+    map["para;"] = "\u{B6}"
+    map["parallel;"] = "\u{2225}"
+    map["parsim;"] = "\u{2AF3}"
+    map["parsl;"] = "\u{2AFD}"
+    map["part;"] = "\u{2202}"
+    map["PartialD;"] = "\u{2202}"
+    map["Pcy;"] = "\u{41F}"
+    map["pcy;"] = "\u{43F}"
+    map["percnt;"] = "\u{25}"
+    map["period;"] = "\u{2E}"
+    map["permil;"] = "\u{2030}"
+    map["perp;"] = "\u{22A5}"
+    map["pertenk;"] = "\u{2031}"
+    map["Pfr;"] = "\u{1D513}"
+    map["pfr;"] = "\u{1D52D}"
+    map["Phi;"] = "\u{3A6}"
+    map["phi;"] = "\u{3C6}"
+    map["phiv;"] = "\u{3D5}"
+    map["phmmat;"] = "\u{2133}"
+    map["phone;"] = "\u{260E}"
+    map["Pi;"] = "\u{3A0}"
+    map["pi;"] = "\u{3C0}"
+    map["pitchfork;"] = "\u{22D4}"
+    map["piv;"] = "\u{3D6}"
+    map["planck;"] = "\u{210F}"
+    map["planckh;"] = "\u{210E}"
+    map["plankv;"] = "\u{210F}"
+    map["plus;"] = "\u{2B}"
+    map["plusacir;"] = "\u{2A23}"
+    map["plusb;"] = "\u{229E}"
+    map["pluscir;"] = "\u{2A22}"
+    map["plusdo;"] = "\u{2214}"
+    map["plusdu;"] = "\u{2A25}"
+    map["pluse;"] = "\u{2A72}"
+    map["PlusMinus;"] = "\u{B1}"
+    map["plusmn;"] = "\u{B1}"
+    map["plussim;"] = "\u{2A26}"
+    map["plustwo;"] = "\u{2A27}"
+    map["pm;"] = "\u{B1}"
+    map["Poincareplane;"] = "\u{210C}"
+    map["pointint;"] = "\u{2A15}"
+    map["Popf;"] = "\u{2119}"
+    map["popf;"] = "\u{1D561}"
+    map["pound;"] = "\u{A3}"
+    map["Pr;"] = "\u{2ABB}"
+    map["pr;"] = "\u{227A}"
+    map["prap;"] = "\u{2AB7}"
+    map["prcue;"] = "\u{227C}"
+    map["prE;"] = "\u{2AB3}"
+    map["pre;"] = "\u{2AAF}"
+    map["prec;"] = "\u{227A}"
+    map["precapprox;"] = "\u{2AB7}"
+    map["preccurlyeq;"] = "\u{227C}"
+    map["Precedes;"] = "\u{227A}"
+    map["PrecedesEqual;"] = "\u{2AAF}"
+    map["PrecedesSlantEqual;"] = "\u{227C}"
+    map["PrecedesTilde;"] = "\u{227E}"
+    map["preceq;"] = "\u{2AAF}"
+    map["precnapprox;"] = "\u{2AB9}"
+    map["precneqq;"] = "\u{2AB5}"
+    map["precnsim;"] = "\u{22E8}"
+    map["precsim;"] = "\u{227E}"
+    map["Prime;"] = "\u{2033}"
+    map["prime;"] = "\u{2032}"
+    map["primes;"] = "\u{2119}"
+    map["prnap;"] = "\u{2AB9}"
+    map["prnE;"] = "\u{2AB5}"
+    map["prnsim;"] = "\u{22E8}"
+    map["prod;"] = "\u{220F}"
+    map["Product;"] = "\u{220F}"
+    map["profalar;"] = "\u{232E}"
+    map["profline;"] = "\u{2312}"
+    map["profsurf;"] = "\u{2313}"
+    map["prop;"] = "\u{221D}"
+    map["Proportion;"] = "\u{2237}"
+    map["Proportional;"] = "\u{221D}"
+    map["propto;"] = "\u{221D}"
+    map["prsim;"] = "\u{227E}"
+    map["prurel;"] = "\u{22B0}"
+    map["Pscr;"] = "\u{1D4AB}"
+    map["pscr;"] = "\u{1D4C5}"
+    map["Psi;"] = "\u{3A8}"
+    map["psi;"] = "\u{3C8}"
+    map["puncsp;"] = "\u{2008}"
+    map["Qfr;"] = "\u{1D514}"
+    map["qfr;"] = "\u{1D52E}"
+    map["qint;"] = "\u{2A0C}"
+    map["Qopf;"] = "\u{211A}"
+    map["qopf;"] = "\u{1D562}"
+    map["qprime;"] = "\u{2057}"
+    map["Qscr;"] = "\u{1D4AC}"
+    map["qscr;"] = "\u{1D4C6}"
+    map["quaternions;"] = "\u{210D}"
+    map["quatint;"] = "\u{2A16}"
+    map["quest;"] = "\u{3F}"
+    map["questeq;"] = "\u{225F}"
+    map["QUOT;"] = "\u{22}"
+    map["quot;"] = "\u{22}"
+    map["rAarr;"] = "\u{21DB}"
+    map["race;"] = "\u{223D}\u{331}"
+    map["Racute;"] = "\u{154}"
+    map["racute;"] = "\u{155}"
+    map["radic;"] = "\u{221A}"
+    map["raemptyv;"] = "\u{29B3}"
+    map["Rang;"] = "\u{27EB}"
+    map["rang;"] = "\u{27E9}"
+    map["rangd;"] = "\u{2992}"
+    map["range;"] = "\u{29A5}"
+    map["rangle;"] = "\u{27E9}"
+    map["raquo;"] = "\u{BB}"
+    map["Rarr;"] = "\u{21A0}"
+    map["rArr;"] = "\u{21D2}"
+    map["rarr;"] = "\u{2192}"
+    map["rarrap;"] = "\u{2975}"
+    map["rarrb;"] = "\u{21E5}"
+    map["rarrbfs;"] = "\u{2920}"
+    map["rarrc;"] = "\u{2933}"
+    map["rarrfs;"] = "\u{291E}"
+    map["rarrhk;"] = "\u{21AA}"
+    map["rarrlp;"] = "\u{21AC}"
+    map["rarrpl;"] = "\u{2945}"
+    map["rarrsim;"] = "\u{2974}"
+    map["Rarrtl;"] = "\u{2916}"
+    map["rarrtl;"] = "\u{21A3}"
+    map["rarrw;"] = "\u{219D}"
+    map["rAtail;"] = "\u{291C}"
+    map["ratail;"] = "\u{291A}"
+    map["ratio;"] = "\u{2236}"
+    map["rationals;"] = "\u{211A}"
+    map["RBarr;"] = "\u{2910}"
+    map["rBarr;"] = "\u{290F}"
+    map["rbarr;"] = "\u{290D}"
+    map["rbbrk;"] = "\u{2773}"
+    map["rbrace;"] = "\u{7D}"
+    map["rbrack;"] = "\u{5D}"
+    map["rbrke;"] = "\u{298C}"
+    map["rbrksld;"] = "\u{298E}"
+    map["rbrkslu;"] = "\u{2990}"
+    map["Rcaron;"] = "\u{158}"
+    map["rcaron;"] = "\u{159}"
+    map["Rcedil;"] = "\u{156}"
+    map["rcedil;"] = "\u{157}"
+    map["rceil;"] = "\u{2309}"
+    map["rcub;"] = "\u{7D}"
+    map["Rcy;"] = "\u{420}"
+    map["rcy;"] = "\u{440}"
+    map["rdca;"] = "\u{2937}"
+    map["rdldhar;"] = "\u{2969}"
+    map["rdquo;"] = "\u{201D}"
+    map["rdquor;"] = "\u{201D}"
+    map["rdsh;"] = "\u{21B3}"
+    map["Re;"] = "\u{211C}"
+    map["real;"] = "\u{211C}"
+    map["realine;"] = "\u{211B}"
+    map["realpart;"] = "\u{211C}"
+    map["reals;"] = "\u{211D}"
+    map["rect;"] = "\u{25AD}"
+    map["REG;"] = "\u{AE}"
+    map["reg;"] = "\u{AE}"
+    map["ReverseElement;"] = "\u{220B}"
+    map["ReverseEquilibrium;"] = "\u{21CB}"
+    map["ReverseUpEquilibrium;"] = "\u{296F}"
+    map["rfisht;"] = "\u{297D}"
+    map["rfloor;"] = "\u{230B}"
+    map["Rfr;"] = "\u{211C}"
+    map["rfr;"] = "\u{1D52F}"
+    map["rHar;"] = "\u{2964}"
+    map["rhard;"] = "\u{21C1}"
+    map["rharu;"] = "\u{21C0}"
+    map["rharul;"] = "\u{296C}"
+    map["Rho;"] = "\u{3A1}"
+    map["rho;"] = "\u{3C1}"
+    map["rhov;"] = "\u{3F1}"
+    map["RightAngleBracket;"] = "\u{27E9}"
+    map["RightArrow;"] = "\u{2192}"
+    map["Rightarrow;"] = "\u{21D2}"
+    map["rightarrow;"] = "\u{2192}"
+    map["RightArrowBar;"] = "\u{21E5}"
+    map["RightArrowLeftArrow;"] = "\u{21C4}"
+    map["rightarrowtail;"] = "\u{21A3}"
+    map["RightCeiling;"] = "\u{2309}"
+    map["RightDoubleBracket;"] = "\u{27E7}"
+    map["RightDownTeeVector;"] = "\u{295D}"
+    map["RightDownVector;"] = "\u{21C2}"
+    map["RightDownVectorBar;"] = "\u{2955}"
+    map["RightFloor;"] = "\u{230B}"
+    map["rightharpoondown;"] = "\u{21C1}"
+    map["rightharpoonup;"] = "\u{21C0}"
+    map["rightleftarrows;"] = "\u{21C4}"
+    map["rightleftharpoons;"] = "\u{21CC}"
+    map["rightrightarrows;"] = "\u{21C9}"
+    map["rightsquigarrow;"] = "\u{219D}"
+    map["RightTee;"] = "\u{22A2}"
+    map["RightTeeArrow;"] = "\u{21A6}"
+    map["RightTeeVector;"] = "\u{295B}"
+    map["rightthreetimes;"] = "\u{22CC}"
+    map["RightTriangle;"] = "\u{22B3}"
+    map["RightTriangleBar;"] = "\u{29D0}"
+    map["RightTriangleEqual;"] = "\u{22B5}"
+    map["RightUpDownVector;"] = "\u{294F}"
+    map["RightUpTeeVector;"] = "\u{295C}"
+    map["RightUpVector;"] = "\u{21BE}"
+    map["RightUpVectorBar;"] = "\u{2954}"
+    map["RightVector;"] = "\u{21C0}"
+    map["RightVectorBar;"] = "\u{2953}"
+    map["ring;"] = "\u{2DA}"
+    map["risingdotseq;"] = "\u{2253}"
+    map["rlarr;"] = "\u{21C4}"
+    map["rlhar;"] = "\u{21CC}"
+    map["rlm;"] = "\u{200F}"
+    map["rmoust;"] = "\u{23B1}"
+    map["rmoustache;"] = "\u{23B1}"
+    map["rnmid;"] = "\u{2AEE}"
+    map["roang;"] = "\u{27ED}"
+    map["roarr;"] = "\u{21FE}"
+    map["robrk;"] = "\u{27E7}"
+    map["ropar;"] = "\u{2986}"
+    map["Ropf;"] = "\u{211D}"
+    map["ropf;"] = "\u{1D563}"
+    map["roplus;"] = "\u{2A2E}"
+    map["rotimes;"] = "\u{2A35}"
+    map["RoundImplies;"] = "\u{2970}"
+    map["rpar;"] = "\u{29}"
+    map["rpargt;"] = "\u{2994}"
+    map["rppolint;"] = "\u{2A12}"
+    map["rrarr;"] = "\u{21C9}"
+    map["Rrightarrow;"] = "\u{21DB}"
+    map["rsaquo;"] = "\u{203A}"
+    map["Rscr;"] = "\u{211B}"
+    map["rscr;"] = "\u{1D4C7}"
+    map["Rsh;"] = "\u{21B1}"
+    map["rsh;"] = "\u{21B1}"
+    map["rsqb;"] = "\u{5D}"
+    map["rsquo;"] = "\u{2019}"
+    map["rsquor;"] = "\u{2019}"
+    map["rthree;"] = "\u{22CC}"
+    map["rtimes;"] = "\u{22CA}"
+    map["rtri;"] = "\u{25B9}"
+    map["rtrie;"] = "\u{22B5}"
+    map["rtrif;"] = "\u{25B8}"
+    map["rtriltri;"] = "\u{29CE}"
+    map["RuleDelayed;"] = "\u{29F4}"
+    map["ruluhar;"] = "\u{2968}"
+    map["rx;"] = "\u{211E}"
+    map["Sacute;"] = "\u{15A}"
+    map["sacute;"] = "\u{15B}"
+    map["sbquo;"] = "\u{201A}"
+    map["Sc;"] = "\u{2ABC}"
+    map["sc;"] = "\u{227B}"
+    map["scap;"] = "\u{2AB8}"
+    map["Scaron;"] = "\u{160}"
+    map["scaron;"] = "\u{161}"
+    map["sccue;"] = "\u{227D}"
+    map["scE;"] = "\u{2AB4}"
+    map["sce;"] = "\u{2AB0}"
+    map["Scedil;"] = "\u{15E}"
+    map["scedil;"] = "\u{15F}"
+    map["Scirc;"] = "\u{15C}"
+    map["scirc;"] = "\u{15D}"
+    map["scnap;"] = "\u{2ABA}"
+    map["scnE;"] = "\u{2AB6}"
+    map["scnsim;"] = "\u{22E9}"
+    map["scpolint;"] = "\u{2A13}"
+    map["scsim;"] = "\u{227F}"
+    map["Scy;"] = "\u{421}"
+    map["scy;"] = "\u{441}"
+    map["sdot;"] = "\u{22C5}"
+    map["sdotb;"] = "\u{22A1}"
+    map["sdote;"] = "\u{2A66}"
+    map["searhk;"] = "\u{2925}"
+    map["seArr;"] = "\u{21D8}"
+    map["searr;"] = "\u{2198}"
+    map["searrow;"] = "\u{2198}"
+    map["sect;"] = "\u{A7}"
+    map["semi;"] = "\u{3B}"
+    map["seswar;"] = "\u{2929}"
+    map["setminus;"] = "\u{2216}"
+    map["setmn;"] = "\u{2216}"
+    map["sext;"] = "\u{2736}"
+    map["Sfr;"] = "\u{1D516}"
+    map["sfr;"] = "\u{1D530}"
+    map["sfrown;"] = "\u{2322}"
+    map["sharp;"] = "\u{266F}"
+    map["SHCHcy;"] = "\u{429}"
+    map["shchcy;"] = "\u{449}"
+    map["SHcy;"] = "\u{428}"
+    map["shcy;"] = "\u{448}"
+    map["ShortDownArrow;"] = "\u{2193}"
+    map["ShortLeftArrow;"] = "\u{2190}"
+    map["shortmid;"] = "\u{2223}"
+    map["shortparallel;"] = "\u{2225}"
+    map["ShortRightArrow;"] = "\u{2192}"
+    map["ShortUpArrow;"] = "\u{2191}"
+    map["shy;"] = "\u{AD}"
+    map["Sigma;"] = "\u{3A3}"
+    map["sigma;"] = "\u{3C3}"
+    map["sigmaf;"] = "\u{3C2}"
+    map["sigmav;"] = "\u{3C2}"
+    map["sim;"] = "\u{223C}"
+    map["simdot;"] = "\u{2A6A}"
+    map["sime;"] = "\u{2243}"
+    map["simeq;"] = "\u{2243}"
+    map["simg;"] = "\u{2A9E}"
+    map["simgE;"] = "\u{2AA0}"
+    map["siml;"] = "\u{2A9D}"
+    map["simlE;"] = "\u{2A9F}"
+    map["simne;"] = "\u{2246}"
+    map["simplus;"] = "\u{2A24}"
+    map["simrarr;"] = "\u{2972}"
+    map["slarr;"] = "\u{2190}"
+    map["SmallCircle;"] = "\u{2218}"
+    map["smallsetminus;"] = "\u{2216}"
+    map["smashp;"] = "\u{2A33}"
+    map["smeparsl;"] = "\u{29E4}"
+    map["smid;"] = "\u{2223}"
+    map["smile;"] = "\u{2323}"
+    map["smt;"] = "\u{2AAA}"
+    map["smte;"] = "\u{2AAC}"
+    map["smtes;"] = "\u{2AAC}\u{FE00}"
+    map["SOFTcy;"] = "\u{42C}"
+    map["softcy;"] = "\u{44C}"
+    map["sol;"] = "\u{2F}"
+    map["solb;"] = "\u{29C4}"
+    map["solbar;"] = "\u{233F}"
+    map["Sopf;"] = "\u{1D54A}"
+    map["sopf;"] = "\u{1D564}"
+    map["spades;"] = "\u{2660}"
+    map["spadesuit;"] = "\u{2660}"
+    map["spar;"] = "\u{2225}"
+    map["sqcap;"] = "\u{2293}"
+    map["sqcaps;"] = "\u{2293}\u{FE00}"
+    map["sqcup;"] = "\u{2294}"
+    map["sqcups;"] = "\u{2294}\u{FE00}"
+    map["Sqrt;"] = "\u{221A}"
+    map["sqsub;"] = "\u{228F}"
+    map["sqsube;"] = "\u{2291}"
+    map["sqsubset;"] = "\u{228F}"
+    map["sqsubseteq;"] = "\u{2291}"
+    map["sqsup;"] = "\u{2290}"
+    map["sqsupe;"] = "\u{2292}"
+    map["sqsupset;"] = "\u{2290}"
+    map["sqsupseteq;"] = "\u{2292}"
+    map["squ;"] = "\u{25A1}"
+    map["Square;"] = "\u{25A1}"
+    map["square;"] = "\u{25A1}"
+    map["SquareIntersection;"] = "\u{2293}"
+    map["SquareSubset;"] = "\u{228F}"
+    map["SquareSubsetEqual;"] = "\u{2291}"
+    map["SquareSuperset;"] = "\u{2290}"
+    map["SquareSupersetEqual;"] = "\u{2292}"
+    map["SquareUnion;"] = "\u{2294}"
+    map["squarf;"] = "\u{25AA}"
+    map["squf;"] = "\u{25AA}"
+    map["srarr;"] = "\u{2192}"
+    map["Sscr;"] = "\u{1D4AE}"
+    map["sscr;"] = "\u{1D4C8}"
+    map["ssetmn;"] = "\u{2216}"
+    map["ssmile;"] = "\u{2323}"
+    map["sstarf;"] = "\u{22C6}"
+    map["Star;"] = "\u{22C6}"
+    map["star;"] = "\u{2606}"
+    map["starf;"] = "\u{2605}"
+    map["straightepsilon;"] = "\u{3F5}"
+    map["straightphi;"] = "\u{3D5}"
+    map["strns;"] = "\u{AF}"
+    map["Sub;"] = "\u{22D0}"
+    map["sub;"] = "\u{2282}"
+    map["subdot;"] = "\u{2ABD}"
+    map["subE;"] = "\u{2AC5}"
+    map["sube;"] = "\u{2286}"
+    map["subedot;"] = "\u{2AC3}"
+    map["submult;"] = "\u{2AC1}"
+    map["subnE;"] = "\u{2ACB}"
+    map["subne;"] = "\u{228A}"
+    map["subplus;"] = "\u{2ABF}"
+    map["subrarr;"] = "\u{2979}"
+    map["Subset;"] = "\u{22D0}"
+    map["subset;"] = "\u{2282}"
+    map["subseteq;"] = "\u{2286}"
+    map["subseteqq;"] = "\u{2AC5}"
+    map["SubsetEqual;"] = "\u{2286}"
+    map["subsetneq;"] = "\u{228A}"
+    map["subsetneqq;"] = "\u{2ACB}"
+    map["subsim;"] = "\u{2AC7}"
+    map["subsub;"] = "\u{2AD5}"
+    map["subsup;"] = "\u{2AD3}"
+    map["succ;"] = "\u{227B}"
+    map["succapprox;"] = "\u{2AB8}"
+    map["succcurlyeq;"] = "\u{227D}"
+    map["Succeeds;"] = "\u{227B}"
+    map["SucceedsEqual;"] = "\u{2AB0}"
+    map["SucceedsSlantEqual;"] = "\u{227D}"
+    map["SucceedsTilde;"] = "\u{227F}"
+    map["succeq;"] = "\u{2AB0}"
+    map["succnapprox;"] = "\u{2ABA}"
+    map["succneqq;"] = "\u{2AB6}"
+    map["succnsim;"] = "\u{22E9}"
+    map["succsim;"] = "\u{227F}"
+    map["SuchThat;"] = "\u{220B}"
+    map["Sum;"] = "\u{2211}"
+    map["sum;"] = "\u{2211}"
+    map["sung;"] = "\u{266A}"
+    map["Sup;"] = "\u{22D1}"
+    map["sup;"] = "\u{2283}"
+    map["sup1;"] = "\u{B9}"
+    map["sup2;"] = "\u{B2}"
+    map["sup3;"] = "\u{B3}"
+    map["supdot;"] = "\u{2ABE}"
+    map["supdsub;"] = "\u{2AD8}"
+    map["supE;"] = "\u{2AC6}"
+    map["supe;"] = "\u{2287}"
+    map["supedot;"] = "\u{2AC4}"
+    map["Superset;"] = "\u{2283}"
+    map["SupersetEqual;"] = "\u{2287}"
+    map["suphsol;"] = "\u{27C9}"
+    map["suphsub;"] = "\u{2AD7}"
+    map["suplarr;"] = "\u{297B}"
+    map["supmult;"] = "\u{2AC2}"
+    map["supnE;"] = "\u{2ACC}"
+    map["supne;"] = "\u{228B}"
+    map["supplus;"] = "\u{2AC0}"
+    map["Supset;"] = "\u{22D1}"
+    map["supset;"] = "\u{2283}"
+    map["supseteq;"] = "\u{2287}"
+    map["supseteqq;"] = "\u{2AC6}"
+    map["supsetneq;"] = "\u{228B}"
+    map["supsetneqq;"] = "\u{2ACC}"
+    map["supsim;"] = "\u{2AC8}"
+    map["supsub;"] = "\u{2AD4}"
+    map["supsup;"] = "\u{2AD6}"
+    map["swarhk;"] = "\u{2926}"
+    map["swArr;"] = "\u{21D9}"
+    map["swarr;"] = "\u{2199}"
+    map["swarrow;"] = "\u{2199}"
+    map["swnwar;"] = "\u{292A}"
+    map["szlig;"] = "\u{DF}"
+    map["Tab;"] = "\u{9}"
+    map["target;"] = "\u{2316}"
+    map["Tau;"] = "\u{3A4}"
+    map["tau;"] = "\u{3C4}"
+    map["tbrk;"] = "\u{23B4}"
+    map["Tcaron;"] = "\u{164}"
+    map["tcaron;"] = "\u{165}"
+    map["Tcedil;"] = "\u{162}"
+    map["tcedil;"] = "\u{163}"
+    map["Tcy;"] = "\u{422}"
+    map["tcy;"] = "\u{442}"
+    map["tdot;"] = "\u{20DB}"
+    map["telrec;"] = "\u{2315}"
+    map["Tfr;"] = "\u{1D517}"
+    map["tfr;"] = "\u{1D531}"
+    map["there4;"] = "\u{2234}"
+    map["Therefore;"] = "\u{2234}"
+    map["therefore;"] = "\u{2234}"
+    map["Theta;"] = "\u{398}"
+    map["theta;"] = "\u{3B8}"
+    map["thetasym;"] = "\u{3D1}"
+    map["thetav;"] = "\u{3D1}"
+    map["thickapprox;"] = "\u{2248}"
+    map["thicksim;"] = "\u{223C}"
     // Skip "ThickSpace;" due to Swift not recognizing it as a single grapheme cluster
-    // "ThickSpace;":"\u{205F}\u{200A}",
-
-    "thinsp;":"\u{2009}","ThinSpace;":"\u{2009}","thkap;":"\u{2248}","thksim;":"\u{223C}",
-    "THORN;":"\u{DE}","thorn;":"\u{FE}","Tilde;":"\u{223C}","tilde;":"\u{2DC}",
-    "TildeEqual;":"\u{2243}","TildeFullEqual;":"\u{2245}","TildeTilde;":"\u{2248}","times;":"\u{D7}",
-    "timesb;":"\u{22A0}","timesbar;":"\u{2A31}","timesd;":"\u{2A30}","tint;":"\u{222D}",
-    "toea;":"\u{2928}","top;":"\u{22A4}","topbot;":"\u{2336}","topcir;":"\u{2AF1}",
-    "Topf;":"\u{1D54B}","topf;":"\u{1D565}","topfork;":"\u{2ADA}","tosa;":"\u{2929}",
-    "tprime;":"\u{2034}","TRADE;":"\u{2122}","trade;":"\u{2122}","triangle;":"\u{25B5}",
-    "triangledown;":"\u{25BF}","triangleleft;":"\u{25C3}","trianglelefteq;":"\u{22B4}","triangleq;":"\u{225C}",
-    "triangleright;":"\u{25B9}","trianglerighteq;":"\u{22B5}","tridot;":"\u{25EC}","trie;":"\u{225C}",
-    "triminus;":"\u{2A3A}","TripleDot;":"\u{20DB}","triplus;":"\u{2A39}","trisb;":"\u{29CD}",
-    "tritime;":"\u{2A3B}","trpezium;":"\u{23E2}","Tscr;":"\u{1D4AF}","tscr;":"\u{1D4C9}",
-    "TScy;":"\u{426}","tscy;":"\u{446}","TSHcy;":"\u{40B}","tshcy;":"\u{45B}",
-    "Tstrok;":"\u{166}","tstrok;":"\u{167}","twixt;":"\u{226C}","twoheadleftarrow;":"\u{219E}",
-    "twoheadrightarrow;":"\u{21A0}","Uacute;":"\u{DA}","uacute;":"\u{FA}","Uarr;":"\u{219F}",
-    "uArr;":"\u{21D1}","uarr;":"\u{2191}","Uarrocir;":"\u{2949}","Ubrcy;":"\u{40E}",
-    "ubrcy;":"\u{45E}","Ubreve;":"\u{16C}","ubreve;":"\u{16D}","Ucirc;":"\u{DB}",
-    "ucirc;":"\u{FB}","Ucy;":"\u{423}","ucy;":"\u{443}","udarr;":"\u{21C5}",
-    "Udblac;":"\u{170}","udblac;":"\u{171}","udhar;":"\u{296E}","ufisht;":"\u{297E}",
-    "Ufr;":"\u{1D518}","ufr;":"\u{1D532}","Ugrave;":"\u{D9}","ugrave;":"\u{F9}",
-    "uHar;":"\u{2963}","uharl;":"\u{21BF}","uharr;":"\u{21BE}","uhblk;":"\u{2580}",
-    "ulcorn;":"\u{231C}","ulcorner;":"\u{231C}","ulcrop;":"\u{230F}","ultri;":"\u{25F8}",
-    "Umacr;":"\u{16A}","umacr;":"\u{16B}","uml;":"\u{A8}","UnderBar;":"\u{5F}",
-    "UnderBrace;":"\u{23DF}","UnderBracket;":"\u{23B5}","UnderParenthesis;":"\u{23DD}","Union;":"\u{22C3}",
-    "UnionPlus;":"\u{228E}","Uogon;":"\u{172}","uogon;":"\u{173}","Uopf;":"\u{1D54C}",
-    "uopf;":"\u{1D566}","UpArrow;":"\u{2191}","Uparrow;":"\u{21D1}","uparrow;":"\u{2191}",
-    "UpArrowBar;":"\u{2912}","UpArrowDownArrow;":"\u{21C5}","UpDownArrow;":"\u{2195}","Updownarrow;":"\u{21D5}",
-    "updownarrow;":"\u{2195}","UpEquilibrium;":"\u{296E}","upharpoonleft;":"\u{21BF}","upharpoonright;":"\u{21BE}",
-    "uplus;":"\u{228E}","UpperLeftArrow;":"\u{2196}","UpperRightArrow;":"\u{2197}","Upsi;":"\u{3D2}",
-    "upsi;":"\u{3C5}","upsih;":"\u{3D2}","Upsilon;":"\u{3A5}","upsilon;":"\u{3C5}",
-    "UpTee;":"\u{22A5}","UpTeeArrow;":"\u{21A5}","upuparrows;":"\u{21C8}","urcorn;":"\u{231D}",
-    "urcorner;":"\u{231D}","urcrop;":"\u{230E}","Uring;":"\u{16E}","uring;":"\u{16F}",
-    "urtri;":"\u{25F9}","Uscr;":"\u{1D4B0}","uscr;":"\u{1D4CA}","utdot;":"\u{22F0}",
-    "Utilde;":"\u{168}","utilde;":"\u{169}","utri;":"\u{25B5}","utrif;":"\u{25B4}",
-    "uuarr;":"\u{21C8}","Uuml;":"\u{DC}","uuml;":"\u{FC}","uwangle;":"\u{29A7}",
-    "vangrt;":"\u{299C}","varepsilon;":"\u{3F5}","varkappa;":"\u{3F0}","varnothing;":"\u{2205}",
-    "varphi;":"\u{3D5}","varpi;":"\u{3D6}","varpropto;":"\u{221D}","vArr;":"\u{21D5}",
-    "varr;":"\u{2195}","varrho;":"\u{3F1}","varsigma;":"\u{3C2}","varsubsetneq;":"\u{228A}\u{FE00}",
-    "varsubsetneqq;":"\u{2ACB}\u{FE00}","varsupsetneq;":"\u{228B}\u{FE00}","varsupsetneqq;":"\u{2ACC}\u{FE00}","vartheta;":"\u{3D1}",
-    "vartriangleleft;":"\u{22B2}","vartriangleright;":"\u{22B3}","Vbar;":"\u{2AEB}","vBar;":"\u{2AE8}",
-    "vBarv;":"\u{2AE9}","Vcy;":"\u{412}","vcy;":"\u{432}","VDash;":"\u{22AB}",
-    "Vdash;":"\u{22A9}","vDash;":"\u{22A8}","vdash;":"\u{22A2}","Vdashl;":"\u{2AE6}",
-    "Vee;":"\u{22C1}","vee;":"\u{2228}","veebar;":"\u{22BB}","veeeq;":"\u{225A}",
-    "vellip;":"\u{22EE}","Verbar;":"\u{2016}","verbar;":"\u{7C}","Vert;":"\u{2016}",
-    "vert;":"\u{7C}","VerticalBar;":"\u{2223}","VerticalLine;":"\u{7C}","VerticalSeparator;":"\u{2758}",
-    "VerticalTilde;":"\u{2240}","VeryThinSpace;":"\u{200A}","Vfr;":"\u{1D519}","vfr;":"\u{1D533}",
-    "vltri;":"\u{22B2}","vnsub;":"\u{2282}\u{20D2}","vnsup;":"\u{2283}\u{20D2}","Vopf;":"\u{1D54D}",
-    "vopf;":"\u{1D567}","vprop;":"\u{221D}","vrtri;":"\u{22B3}","Vscr;":"\u{1D4B1}",
-    "vscr;":"\u{1D4CB}","vsubnE;":"\u{2ACB}\u{FE00}","vsubne;":"\u{228A}\u{FE00}","vsupnE;":"\u{2ACC}\u{FE00}",
-    "vsupne;":"\u{228B}\u{FE00}","Vvdash;":"\u{22AA}","vzigzag;":"\u{299A}","Wcirc;":"\u{174}",
-    "wcirc;":"\u{175}","wedbar;":"\u{2A5F}","Wedge;":"\u{22C0}","wedge;":"\u{2227}",
-    "wedgeq;":"\u{2259}","weierp;":"\u{2118}","Wfr;":"\u{1D51A}","wfr;":"\u{1D534}",
-    "Wopf;":"\u{1D54E}","wopf;":"\u{1D568}","wp;":"\u{2118}","wr;":"\u{2240}",
-    "wreath;":"\u{2240}","Wscr;":"\u{1D4B2}","wscr;":"\u{1D4CC}","xcap;":"\u{22C2}",
-    "xcirc;":"\u{25EF}","xcup;":"\u{22C3}","xdtri;":"\u{25BD}","Xfr;":"\u{1D51B}",
-    "xfr;":"\u{1D535}","xhArr;":"\u{27FA}","xharr;":"\u{27F7}","Xi;":"\u{39E}",
-    "xi;":"\u{3BE}","xlArr;":"\u{27F8}","xlarr;":"\u{27F5}","xmap;":"\u{27FC}",
-    "xnis;":"\u{22FB}","xodot;":"\u{2A00}","Xopf;":"\u{1D54F}","xopf;":"\u{1D569}",
-    "xoplus;":"\u{2A01}","xotime;":"\u{2A02}","xrArr;":"\u{27F9}","xrarr;":"\u{27F6}",
-    "Xscr;":"\u{1D4B3}","xscr;":"\u{1D4CD}","xsqcup;":"\u{2A06}","xuplus;":"\u{2A04}",
-    "xutri;":"\u{25B3}","xvee;":"\u{22C1}","xwedge;":"\u{22C0}","Yacute;":"\u{DD}",
-    "yacute;":"\u{FD}","YAcy;":"\u{42F}","yacy;":"\u{44F}","Ycirc;":"\u{176}",
-    "ycirc;":"\u{177}","Ycy;":"\u{42B}","ycy;":"\u{44B}","yen;":"\u{A5}",
-    "Yfr;":"\u{1D51C}","yfr;":"\u{1D536}","YIcy;":"\u{407}","yicy;":"\u{457}",
-    "Yopf;":"\u{1D550}","yopf;":"\u{1D56A}","Yscr;":"\u{1D4B4}","yscr;":"\u{1D4CE}",
-    "YUcy;":"\u{42E}","yucy;":"\u{44E}","Yuml;":"\u{178}","yuml;":"\u{FF}",
-    "Zacute;":"\u{179}","zacute;":"\u{17A}","Zcaron;":"\u{17D}","zcaron;":"\u{17E}",
-    "Zcy;":"\u{417}","zcy;":"\u{437}","Zdot;":"\u{17B}","zdot;":"\u{17C}",
-    "zeetrf;":"\u{2128}","ZeroWidthSpace;":"\u{200B}","Zeta;":"\u{396}","zeta;":"\u{3B6}",
-    "Zfr;":"\u{2128}","zfr;":"\u{1D537}","ZHcy;":"\u{416}","zhcy;":"\u{436}",
-    "zigrarr;":"\u{21DD}","Zopf;":"\u{2124}","zopf;":"\u{1D56B}","Zscr;":"\u{1D4B5}",
-    "zscr;":"\u{1D4CF}","zwj;":"\u{200D}","zwnj;":"\u{200C}"
-]
+    // map["ThickSpace;"] = "\u{205F}\u{200A}"
+    map["thinsp;"] = "\u{2009}"
+    map["ThinSpace;"] = "\u{2009}"
+    map["thkap;"] = "\u{2248}"
+    map["thksim;"] = "\u{223C}"
+    map["THORN;"] = "\u{DE}"
+    map["thorn;"] = "\u{FE}"
+    map["Tilde;"] = "\u{223C}"
+    map["tilde;"] = "\u{2DC}"
+    map["TildeEqual;"] = "\u{2243}"
+    map["TildeFullEqual;"] = "\u{2245}"
+    map["TildeTilde;"] = "\u{2248}"
+    map["times;"] = "\u{D7}"
+    map["timesb;"] = "\u{22A0}"
+    map["timesbar;"] = "\u{2A31}"
+    map["timesd;"] = "\u{2A30}"
+    map["tint;"] = "\u{222D}"
+    map["toea;"] = "\u{2928}"
+    map["top;"] = "\u{22A4}"
+    map["topbot;"] = "\u{2336}"
+    map["topcir;"] = "\u{2AF1}"
+    map["Topf;"] = "\u{1D54B}"
+    map["topf;"] = "\u{1D565}"
+    map["topfork;"] = "\u{2ADA}"
+    map["tosa;"] = "\u{2929}"
+    map["tprime;"] = "\u{2034}"
+    map["TRADE;"] = "\u{2122}"
+    map["trade;"] = "\u{2122}"
+    map["triangle;"] = "\u{25B5}"
+    map["triangledown;"] = "\u{25BF}"
+    map["triangleleft;"] = "\u{25C3}"
+    map["trianglelefteq;"] = "\u{22B4}"
+    map["triangleq;"] = "\u{225C}"
+    map["triangleright;"] = "\u{25B9}"
+    map["trianglerighteq;"] = "\u{22B5}"
+    map["tridot;"] = "\u{25EC}"
+    map["trie;"] = "\u{225C}"
+    map["triminus;"] = "\u{2A3A}"
+    map["TripleDot;"] = "\u{20DB}"
+    map["triplus;"] = "\u{2A39}"
+    map["trisb;"] = "\u{29CD}"
+    map["tritime;"] = "\u{2A3B}"
+    map["trpezium;"] = "\u{23E2}"
+    map["Tscr;"] = "\u{1D4AF}"
+    map["tscr;"] = "\u{1D4C9}"
+    map["TScy;"] = "\u{426}"
+    map["tscy;"] = "\u{446}"
+    map["TSHcy;"] = "\u{40B}"
+    map["tshcy;"] = "\u{45B}"
+    map["Tstrok;"] = "\u{166}"
+    map["tstrok;"] = "\u{167}"
+    map["twixt;"] = "\u{226C}"
+    map["twoheadleftarrow;"] = "\u{219E}"
+    map["twoheadrightarrow;"] = "\u{21A0}"
+    map["Uacute;"] = "\u{DA}"
+    map["uacute;"] = "\u{FA}"
+    map["Uarr;"] = "\u{219F}"
+    map["uArr;"] = "\u{21D1}"
+    map["uarr;"] = "\u{2191}"
+    map["Uarrocir;"] = "\u{2949}"
+    map["Ubrcy;"] = "\u{40E}"
+    map["ubrcy;"] = "\u{45E}"
+    map["Ubreve;"] = "\u{16C}"
+    map["ubreve;"] = "\u{16D}"
+    map["Ucirc;"] = "\u{DB}"
+    map["ucirc;"] = "\u{FB}"
+    map["Ucy;"] = "\u{423}"
+    map["ucy;"] = "\u{443}"
+    map["udarr;"] = "\u{21C5}"
+    map["Udblac;"] = "\u{170}"
+    map["udblac;"] = "\u{171}"
+    map["udhar;"] = "\u{296E}"
+    map["ufisht;"] = "\u{297E}"
+    map["Ufr;"] = "\u{1D518}"
+    map["ufr;"] = "\u{1D532}"
+    map["Ugrave;"] = "\u{D9}"
+    map["ugrave;"] = "\u{F9}"
+    map["uHar;"] = "\u{2963}"
+    map["uharl;"] = "\u{21BF}"
+    map["uharr;"] = "\u{21BE}"
+    map["uhblk;"] = "\u{2580}"
+    map["ulcorn;"] = "\u{231C}"
+    map["ulcorner;"] = "\u{231C}"
+    map["ulcrop;"] = "\u{230F}"
+    map["ultri;"] = "\u{25F8}"
+    map["Umacr;"] = "\u{16A}"
+    map["umacr;"] = "\u{16B}"
+    map["uml;"] = "\u{A8}"
+    map["UnderBar;"] = "\u{5F}"
+    map["UnderBrace;"] = "\u{23DF}"
+    map["UnderBracket;"] = "\u{23B5}"
+    map["UnderParenthesis;"] = "\u{23DD}"
+    map["Union;"] = "\u{22C3}"
+    map["UnionPlus;"] = "\u{228E}"
+    map["Uogon;"] = "\u{172}"
+    map["uogon;"] = "\u{173}"
+    map["Uopf;"] = "\u{1D54C}"
+    map["uopf;"] = "\u{1D566}"
+    map["UpArrow;"] = "\u{2191}"
+    map["Uparrow;"] = "\u{21D1}"
+    map["uparrow;"] = "\u{2191}"
+    map["UpArrowBar;"] = "\u{2912}"
+    map["UpArrowDownArrow;"] = "\u{21C5}"
+    map["UpDownArrow;"] = "\u{2195}"
+    map["Updownarrow;"] = "\u{21D5}"
+    map["updownarrow;"] = "\u{2195}"
+    map["UpEquilibrium;"] = "\u{296E}"
+    map["upharpoonleft;"] = "\u{21BF}"
+    map["upharpoonright;"] = "\u{21BE}"
+    map["uplus;"] = "\u{228E}"
+    map["UpperLeftArrow;"] = "\u{2196}"
+    map["UpperRightArrow;"] = "\u{2197}"
+    map["Upsi;"] = "\u{3D2}"
+    map["upsi;"] = "\u{3C5}"
+    map["upsih;"] = "\u{3D2}"
+    map["Upsilon;"] = "\u{3A5}"
+    map["upsilon;"] = "\u{3C5}"
+    map["UpTee;"] = "\u{22A5}"
+    map["UpTeeArrow;"] = "\u{21A5}"
+    map["upuparrows;"] = "\u{21C8}"
+    map["urcorn;"] = "\u{231D}"
+    map["urcorner;"] = "\u{231D}"
+    map["urcrop;"] = "\u{230E}"
+    map["Uring;"] = "\u{16E}"
+    map["uring;"] = "\u{16F}"
+    map["urtri;"] = "\u{25F9}"
+    map["Uscr;"] = "\u{1D4B0}"
+    map["uscr;"] = "\u{1D4CA}"
+    map["utdot;"] = "\u{22F0}"
+    map["Utilde;"] = "\u{168}"
+    map["utilde;"] = "\u{169}"
+    map["utri;"] = "\u{25B5}"
+    map["utrif;"] = "\u{25B4}"
+    map["uuarr;"] = "\u{21C8}"
+    map["Uuml;"] = "\u{DC}"
+    map["uuml;"] = "\u{FC}"
+    map["uwangle;"] = "\u{29A7}"
+    map["vangrt;"] = "\u{299C}"
+    map["varepsilon;"] = "\u{3F5}"
+    map["varkappa;"] = "\u{3F0}"
+    map["varnothing;"] = "\u{2205}"
+    map["varphi;"] = "\u{3D5}"
+    map["varpi;"] = "\u{3D6}"
+    map["varpropto;"] = "\u{221D}"
+    map["vArr;"] = "\u{21D5}"
+    map["varr;"] = "\u{2195}"
+    map["varrho;"] = "\u{3F1}"
+    map["varsigma;"] = "\u{3C2}"
+    map["varsubsetneq;"] = "\u{228A}\u{FE00}"
+    map["varsubsetneqq;"] = "\u{2ACB}\u{FE00}"
+    map["varsupsetneq;"] = "\u{228B}\u{FE00}"
+    map["varsupsetneqq;"] = "\u{2ACC}\u{FE00}"
+    map["vartheta;"] = "\u{3D1}"
+    map["vartriangleleft;"] = "\u{22B2}"
+    map["vartriangleright;"] = "\u{22B3}"
+    map["Vbar;"] = "\u{2AEB}"
+    map["vBar;"] = "\u{2AE8}"
+    map["vBarv;"] = "\u{2AE9}"
+    map["Vcy;"] = "\u{412}"
+    map["vcy;"] = "\u{432}"
+    map["VDash;"] = "\u{22AB}"
+    map["Vdash;"] = "\u{22A9}"
+    map["vDash;"] = "\u{22A8}"
+    map["vdash;"] = "\u{22A2}"
+    map["Vdashl;"] = "\u{2AE6}"
+    map["Vee;"] = "\u{22C1}"
+    map["vee;"] = "\u{2228}"
+    map["veebar;"] = "\u{22BB}"
+    map["veeeq;"] = "\u{225A}"
+    map["vellip;"] = "\u{22EE}"
+    map["Verbar;"] = "\u{2016}"
+    map["verbar;"] = "\u{7C}"
+    map["Vert;"] = "\u{2016}"
+    map["vert;"] = "\u{7C}"
+    map["VerticalBar;"] = "\u{2223}"
+    map["VerticalLine;"] = "\u{7C}"
+    map["VerticalSeparator;"] = "\u{2758}"
+    map["VerticalTilde;"] = "\u{2240}"
+    map["VeryThinSpace;"] = "\u{200A}"
+    map["Vfr;"] = "\u{1D519}"
+    map["vfr;"] = "\u{1D533}"
+    map["vltri;"] = "\u{22B2}"
+    map["vnsub;"] = "\u{2282}\u{20D2}"
+    map["vnsup;"] = "\u{2283}\u{20D2}"
+    map["Vopf;"] = "\u{1D54D}"
+    map["vopf;"] = "\u{1D567}"
+    map["vprop;"] = "\u{221D}"
+    map["vrtri;"] = "\u{22B3}"
+    map["Vscr;"] = "\u{1D4B1}"
+    map["vscr;"] = "\u{1D4CB}"
+    map["vsubnE;"] = "\u{2ACB}\u{FE00}"
+    map["vsubne;"] = "\u{228A}\u{FE00}"
+    map["vsupnE;"] = "\u{2ACC}\u{FE00}"
+    map["vsupne;"] = "\u{228B}\u{FE00}"
+    map["Vvdash;"] = "\u{22AA}"
+    map["vzigzag;"] = "\u{299A}"
+    map["Wcirc;"] = "\u{174}"
+    map["wcirc;"] = "\u{175}"
+    map["wedbar;"] = "\u{2A5F}"
+    map["Wedge;"] = "\u{22C0}"
+    map["wedge;"] = "\u{2227}"
+    map["wedgeq;"] = "\u{2259}"
+    map["weierp;"] = "\u{2118}"
+    map["Wfr;"] = "\u{1D51A}"
+    map["wfr;"] = "\u{1D534}"
+    map["Wopf;"] = "\u{1D54E}"
+    map["wopf;"] = "\u{1D568}"
+    map["wp;"] = "\u{2118}"
+    map["wr;"] = "\u{2240}"
+    map["wreath;"] = "\u{2240}"
+    map["Wscr;"] = "\u{1D4B2}"
+    map["wscr;"] = "\u{1D4CC}"
+    map["xcap;"] = "\u{22C2}"
+    map["xcirc;"] = "\u{25EF}"
+    map["xcup;"] = "\u{22C3}"
+    map["xdtri;"] = "\u{25BD}"
+    map["Xfr;"] = "\u{1D51B}"
+    map["xfr;"] = "\u{1D535}"
+    map["xhArr;"] = "\u{27FA}"
+    map["xharr;"] = "\u{27F7}"
+    map["Xi;"] = "\u{39E}"
+    map["xi;"] = "\u{3BE}"
+    map["xlArr;"] = "\u{27F8}"
+    map["xlarr;"] = "\u{27F5}"
+    map["xmap;"] = "\u{27FC}"
+    map["xnis;"] = "\u{22FB}"
+    map["xodot;"] = "\u{2A00}"
+    map["Xopf;"] = "\u{1D54F}"
+    map["xopf;"] = "\u{1D569}"
+    map["xoplus;"] = "\u{2A01}"
+    map["xotime;"] = "\u{2A02}"
+    map["xrArr;"] = "\u{27F9}"
+    map["xrarr;"] = "\u{27F6}"
+    map["Xscr;"] = "\u{1D4B3}"
+    map["xscr;"] = "\u{1D4CD}"
+    map["xsqcup;"] = "\u{2A06}"
+    map["xuplus;"] = "\u{2A04}"
+    map["xutri;"] = "\u{25B3}"
+    map["xvee;"] = "\u{22C1}"
+    map["xwedge;"] = "\u{22C0}"
+    map["Yacute;"] = "\u{DD}"
+    map["yacute;"] = "\u{FD}"
+    map["YAcy;"] = "\u{42F}"
+    map["yacy;"] = "\u{44F}"
+    map["Ycirc;"] = "\u{176}"
+    map["ycirc;"] = "\u{177}"
+    map["Ycy;"] = "\u{42B}"
+    map["ycy;"] = "\u{44B}"
+    map["yen;"] = "\u{A5}"
+    map["Yfr;"] = "\u{1D51C}"
+    map["yfr;"] = "\u{1D536}"
+    map["YIcy;"] = "\u{407}"
+    map["yicy;"] = "\u{457}"
+    map["Yopf;"] = "\u{1D550}"
+    map["yopf;"] = "\u{1D56A}"
+    map["Yscr;"] = "\u{1D4B4}"
+    map["yscr;"] = "\u{1D4CE}"
+    map["YUcy;"] = "\u{42E}"
+    map["yucy;"] = "\u{44E}"
+    map["Yuml;"] = "\u{178}"
+    map["yuml;"] = "\u{FF}"
+    map["Zacute;"] = "\u{179}"
+    map["zacute;"] = "\u{17A}"
+    map["Zcaron;"] = "\u{17D}"
+    map["zcaron;"] = "\u{17E}"
+    map["Zcy;"] = "\u{417}"
+    map["zcy;"] = "\u{437}"
+    map["Zdot;"] = "\u{17B}"
+    map["zdot;"] = "\u{17C}"
+    map["zeetrf;"] = "\u{2128}"
+    map["ZeroWidthSpace;"] = "\u{200B}"
+    map["Zeta;"] = "\u{396}"
+    map["zeta;"] = "\u{3B6}"
+    map["Zfr;"] = "\u{2128}"
+    map["zfr;"] = "\u{1D537}"
+    map["ZHcy;"] = "\u{416}"
+    map["zhcy;"] = "\u{436}"
+    map["zigrarr;"] = "\u{21DD}"
+    map["Zopf;"] = "\u{2124}"
+    map["zopf;"] = "\u{1D56B}"
+    map["Zscr;"] = "\u{1D4B5}"
+    map["zscr;"] = "\u{1D4CF}"
+    map["zwj;"] = "\u{200D}"
+    map["zwnj;"] = "\u{200C}"
+    return map
+}()
